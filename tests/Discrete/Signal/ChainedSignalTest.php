@@ -126,6 +126,29 @@ class ChainedSignalTest extends TestCase
 
     public function testShiftedTripleChaining()
     {
+        $sig1 = new FunctionSignal(function (int $instant) {
+            return $instant*2;
+        });
+        $sig2 = new FunctionSignal(function (int $instant, Context $ctx) {
+            return $ctx->prevSignal(1)+$instant;
+        });
+        $sig3 = new ConstantSignal(150);
 
+        $sig4 = new ChainedSignal($sig1, $sig2, 5, -3, 4);
+        $sig5 = new ChainedSignal($sig4, $sig3, 15, -1);
+
+        $this->assertEquals(-6, $sig5->at(new SimpleContext(1, $sig5)));
+        $this->assertEquals(-4, $sig5->at(new SimpleContext(2, $sig5)));
+        $this->assertEquals(-2, $sig5->at(new SimpleContext(3, $sig5)));
+        $this->assertEquals(0, $sig5->at(new SimpleContext(4, $sig5)));
+
+        $this->assertEquals(2, $sig5->at(new SimpleContext(5, $sig5)));
+        $this->assertEquals(11, $sig5->at(new SimpleContext(6, $sig5)));
+        $this->assertEquals(21, $sig5->at(new SimpleContext(7, $sig5)));
+        $this->assertEquals(32, $sig5->at(new SimpleContext(8, $sig5)));
+        $this->assertEquals(44, $sig5->at(new SimpleContext(9, $sig5)));
+
+        $this->assertEquals(150, $sig5->at(new SimpleContext(15, $sig5)));
+        $this->assertEquals(150, $sig5->at(new SimpleContext(16, $sig5)));
     }
 }
