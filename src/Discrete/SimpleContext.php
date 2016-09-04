@@ -24,9 +24,25 @@ class SimpleContext implements Context
         $this->model   = $model;
     }
 
+    public function withSignal(Signal $signal) : Context
+    {
+        $ctx = clone $this;
+        $ctx->signal = $signal;
+
+        return $ctx;
+    }
+
     public function getInstant() : int
     {
         return $this->instant;
+    }
+
+    /**
+     * @return null|Signal
+     */
+    public function getSignal()
+    {
+        return $this->signal;
     }
 
     public function prevSignal(int $stepsToPast) : float

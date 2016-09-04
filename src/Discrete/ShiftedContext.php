@@ -24,6 +24,14 @@ class ShiftedContext implements Context
         return $this->ctx->getInstant() + $this->shift;
     }
 
+    /**
+     * @return null|Signal
+     */
+    public function getSignal()
+    {
+        return $this->ctx->getSignal();
+    }
+
     public function prevSignal(int $stepsToPast) : float
     {
         return $this->ctx->prevSignal($stepsToPast);
@@ -32,5 +40,13 @@ class ShiftedContext implements Context
     public function prevEnvSignals(string $signalName, int $stepsToPast) : float
     {
         return $this->ctx->prevEnvSignals($signalName, $stepsToPast);
+    }
+
+    public function withSignal(Signal $signal) : Context
+    {
+        $ctx = clone $this;
+        $ctx->ctx = $ctx->ctx->withSignal($signal);
+
+        return $ctx;
     }
 }

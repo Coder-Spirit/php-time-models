@@ -13,6 +13,10 @@ abstract class Signal
 
     public function at(Context $ctx) : float
     {
+        if (null === $ctx->getSignal()) {
+            $ctx = $ctx->withSignal($this);
+        }
+
         $instant = $ctx->getInstant();
 
         if (!isset($this->cache[$instant])) {

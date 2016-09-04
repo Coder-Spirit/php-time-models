@@ -38,10 +38,10 @@ class FunctionSignalTest extends TestCase
                 : 2 * $ctx->prevSignal(1);
         });
 
-        $this->assertEquals(1, $signal->at(new SimpleContext(0, $signal)));
-        $this->assertEquals(2, $signal->at(new SimpleContext(1, $signal)));
-        $this->assertEquals(4, $signal->at(new SimpleContext(2, $signal)));
-        $this->assertEquals(8, $signal->at(new SimpleContext(3, $signal)));
+        $this->assertEquals(1, $signal->at(new SimpleContext(0)));
+        $this->assertEquals(2, $signal->at(new SimpleContext(1)));
+        $this->assertEquals(4, $signal->at(new SimpleContext(2)));
+        $this->assertEquals(8, $signal->at(new SimpleContext(3)));
     }
 
     public function testAt_CrossReferredFunction()

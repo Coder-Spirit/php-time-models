@@ -70,17 +70,17 @@ class ChainedSignalTest extends TestCase
 
         $signal = new ChainedSignal($sig1, $sig2, 5, -3, 4);
 
-        $this->assertEquals(-6, $signal->at(new SimpleContext(0, $signal)));
-        $this->assertEquals(-4, $signal->at(new SimpleContext(1, $signal)));
-        $this->assertEquals(-2, $signal->at(new SimpleContext(2, $signal)));
-        $this->assertEquals(0, $signal->at(new SimpleContext(3, $signal)));
-        $this->assertEquals(2, $signal->at(new SimpleContext(4, $signal)));
+        $this->assertEquals(-6, $signal->at(new SimpleContext(0)));
+        $this->assertEquals(-4, $signal->at(new SimpleContext(1)));
+        $this->assertEquals(-2, $signal->at(new SimpleContext(2)));
+        $this->assertEquals(0, $signal->at(new SimpleContext(3)));
+        $this->assertEquals(2, $signal->at(new SimpleContext(4)));
 
-        $this->assertEquals(3, $signal->at(new SimpleContext(5, $signal)));
-        $this->assertEquals(4, $signal->at(new SimpleContext(6, $signal)));
-        $this->assertEquals(5, $signal->at(new SimpleContext(7, $signal)));
-        $this->assertEquals(6, $signal->at(new SimpleContext(8, $signal)));
-        $this->assertEquals(7, $signal->at(new SimpleContext(9, $signal)));
+        $this->assertEquals(3, $signal->at(new SimpleContext(5)));
+        $this->assertEquals(4, $signal->at(new SimpleContext(6)));
+        $this->assertEquals(5, $signal->at(new SimpleContext(7)));
+        $this->assertEquals(6, $signal->at(new SimpleContext(8)));
+        $this->assertEquals(7, $signal->at(new SimpleContext(9)));
     }
 
     public function testShiftedChaining_withMemoryAndInstant()
@@ -94,17 +94,17 @@ class ChainedSignalTest extends TestCase
 
         $signal = new ChainedSignal($sig1, $sig2, 5, -3, 4);
 
-        $this->assertEquals(-6, $signal->at(new SimpleContext(0, $signal)));
-        $this->assertEquals(-4, $signal->at(new SimpleContext(1, $signal)));
-        $this->assertEquals(-2, $signal->at(new SimpleContext(2, $signal)));
-        $this->assertEquals(0, $signal->at(new SimpleContext(3, $signal)));
-        $this->assertEquals(2, $signal->at(new SimpleContext(4, $signal)));
+        $this->assertEquals(-6, $signal->at(new SimpleContext(0)));
+        $this->assertEquals(-4, $signal->at(new SimpleContext(1)));
+        $this->assertEquals(-2, $signal->at(new SimpleContext(2)));
+        $this->assertEquals(0, $signal->at(new SimpleContext(3)));
+        $this->assertEquals(2, $signal->at(new SimpleContext(4)));
 
-        $this->assertEquals(11, $signal->at(new SimpleContext(5, $signal)));
-        $this->assertEquals(21, $signal->at(new SimpleContext(6, $signal)));
-        $this->assertEquals(32, $signal->at(new SimpleContext(7, $signal)));
-        $this->assertEquals(44, $signal->at(new SimpleContext(8, $signal)));
-        $this->assertEquals(57, $signal->at(new SimpleContext(9, $signal)));
+        $this->assertEquals(11, $signal->at(new SimpleContext(5)));
+        $this->assertEquals(21, $signal->at(new SimpleContext(6)));
+        $this->assertEquals(32, $signal->at(new SimpleContext(7)));
+        $this->assertEquals(44, $signal->at(new SimpleContext(8)));
+        $this->assertEquals(57, $signal->at(new SimpleContext(9)));
     }
 
     public function testSimpleTripleChaining()
@@ -137,18 +137,18 @@ class ChainedSignalTest extends TestCase
         $sig4 = new ChainedSignal($sig1, $sig2, 5, -3, 4);
         $sig5 = new ChainedSignal($sig4, $sig3, 15, -1);
 
-        $this->assertEquals(-6, $sig5->at(new SimpleContext(1, $sig5)));
-        $this->assertEquals(-4, $sig5->at(new SimpleContext(2, $sig5)));
-        $this->assertEquals(-2, $sig5->at(new SimpleContext(3, $sig5)));
-        $this->assertEquals(0, $sig5->at(new SimpleContext(4, $sig5)));
+        $this->assertEquals(-6, $sig5->at(new SimpleContext(1)));
+        $this->assertEquals(-4, $sig5->at(new SimpleContext(2)));
+        $this->assertEquals(-2, $sig5->at(new SimpleContext(3)));
+        $this->assertEquals(0, $sig5->at(new SimpleContext(4)));
 
-        $this->assertEquals(2, $sig5->at(new SimpleContext(5, $sig5)));
-        $this->assertEquals(11, $sig5->at(new SimpleContext(6, $sig5)));
-        $this->assertEquals(21, $sig5->at(new SimpleContext(7, $sig5)));
-        $this->assertEquals(32, $sig5->at(new SimpleContext(8, $sig5)));
-        $this->assertEquals(44, $sig5->at(new SimpleContext(9, $sig5)));
+        $this->assertEquals(2, $sig5->at(new SimpleContext(5)));
+        $this->assertEquals(11, $sig5->at(new SimpleContext(6)));
+        $this->assertEquals(21, $sig5->at(new SimpleContext(7)));
+        $this->assertEquals(32, $sig5->at(new SimpleContext(8)));
+        $this->assertEquals(44, $sig5->at(new SimpleContext(9)));
 
-        $this->assertEquals(150, $sig5->at(new SimpleContext(15, $sig5)));
-        $this->assertEquals(150, $sig5->at(new SimpleContext(16, $sig5)));
+        $this->assertEquals(150, $sig5->at(new SimpleContext(15)));
+        $this->assertEquals(150, $sig5->at(new SimpleContext(16)));
     }
 }
