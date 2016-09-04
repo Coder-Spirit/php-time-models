@@ -39,4 +39,9 @@ final class Model
     {
         return $this->params[$paramName];
     }
+
+    public function evalSignal(string $signalName, int $instant) : float
+    {
+        return $this->getSignal($signalName)->at(new SimpleContext($instant, $this));
+    }
 }

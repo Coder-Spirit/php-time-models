@@ -19,11 +19,16 @@ abstract class Signal
 
         $instant = $ctx->getInstant();
 
-        if (!isset($this->cache[$instant])) {
-            $this->cache[$instant] = $this->_at($ctx);
+        // We only use the cache if the context's signal matches this one.
+        if ($this === $ctx->getSignal()) {
+            if (!isset($this->cache[$instant])) {
+                $this->cache[$instant] = $this->_at($ctx);
+            }
+
+            return $this->cache[$instant];
         }
 
-        return $this->cache[$instant];
+        return $this->_at($ctx);
     }
 
     abstract protected function _at(Context $ctx) : float;
