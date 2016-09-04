@@ -10,6 +10,10 @@ final class FunctionSignal extends Signal
     private $func;
 
 
+    /**
+     * FunctionSignal constructor.
+     * @param callable(int, Context) $func
+     */
     public function __construct(callable $func)
     {
         $this->func = $func;
