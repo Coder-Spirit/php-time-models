@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 
-namespace Litipk\MacPhply;
+namespace Litipk\TimeModels\Discrete;
 
 
 final class ConstantSignal extends Signal

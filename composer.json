@@ -1,5 +1,5 @@
 {
-    "name": "litipk/mac-phply",
+    "name": "litipk/time-models",
     "description": "A package to model systems through the time",
     "license": "MIT",
     "authors": [
@@ -16,12 +16,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Litipk\\MacPhply\\": "src/"
+            "Litipk\\TimeModels\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Litipk\\MacPhply\\Tests\\": "tests/"
+            "Litipk\\TimeModels\\Tests\\": "tests/"
         }
     },
     "minimum-stability": "stable"

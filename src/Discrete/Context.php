@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 
-namespace Litipk\MacPhply;
+namespace Litipk\TimeModels\Discrete;
 
 
 final class Context
@@ -33,7 +33,7 @@ final class Context
     {
         return $this
             ->signal
-            ->at($this->prepareContext($stepsToPast));
+            ->at($this->getPastContext($stepsToPast));
     }
 
     public function prevEnvSignals(string $signalName, int $stepsToPast) : float
@@ -41,10 +41,10 @@ final class Context
         return $this
             ->model
             ->getSignal($signalName)
-            ->at($this->prepareContext($stepsToPast));
+            ->at($this->getPastContext($stepsToPast));
     }
 
-    private function prepareContext(int $stepsToPast) : Context
+    private function getPastContext(int $stepsToPast) : Context
     {
         if ($stepsToPast <= 0) throw new \InvalidArgumentException('Only positive values are allowed');
 
