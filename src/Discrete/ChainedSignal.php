@@ -35,7 +35,7 @@ final class ChainedSignal extends Signal
     protected function _at(Context $ctx) : float
     {
         return ($ctx->getInstant() < $this->cutPoint)
-            ? $this->left->_at($ctx->withShift($this->leftShift))
-            : $this->right->_at($ctx->withShift($this->rightShift));
+            ? $this->left->_at(new ShiftedContext($ctx, $this->leftShift))
+            : $this->right->_at(new ShiftedContext($ctx, $this->rightShift));
     }
 }

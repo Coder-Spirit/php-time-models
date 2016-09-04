@@ -5,6 +5,7 @@ namespace Litipk\TimeModels\Tests\Discrete\Signal;
 
 
 use Litipk\TimeModels\Discrete\Context;
+use Litipk\TimeModels\Discrete\SimpleContext;
 use Litipk\TimeModels\Discrete\FunctionSignal;
 use Litipk\TimeModels\Discrete\Model;
 
@@ -24,9 +25,9 @@ class FunctionSignalTest extends TestCase
             return $instant*2;
         });
 
-        $this->assertEquals(0, $signal->at(new Context(0)));
-        $this->assertEquals(2, $signal->at(new Context(1)));
-        $this->assertEquals(4, $signal->at(new Context(2)));
+        $this->assertEquals(0, $signal->at(new SimpleContext(0)));
+        $this->assertEquals(2, $signal->at(new SimpleContext(1)));
+        $this->assertEquals(4, $signal->at(new SimpleContext(2)));
     }
 
     public function testAt_AutoReferredFunction()
@@ -37,10 +38,10 @@ class FunctionSignalTest extends TestCase
                 : 2 * $ctx->prevSignal(1);
         });
 
-        $this->assertEquals(1, $signal->at(new Context(0, $signal)));
-        $this->assertEquals(2, $signal->at(new Context(1, $signal)));
-        $this->assertEquals(4, $signal->at(new Context(2, $signal)));
-        $this->assertEquals(8, $signal->at(new Context(3, $signal)));
+        $this->assertEquals(1, $signal->at(new SimpleContext(0, $signal)));
+        $this->assertEquals(2, $signal->at(new SimpleContext(1, $signal)));
+        $this->assertEquals(4, $signal->at(new SimpleContext(2, $signal)));
+        $this->assertEquals(8, $signal->at(new SimpleContext(3, $signal)));
     }
 
     public function testAt_CrossReferredFunction()
@@ -62,10 +63,10 @@ class FunctionSignalTest extends TestCase
                     ->withSignal('sig1', $sig1)
                     ->withSignal('sig2', $sig2);
 
-        $this->assertEquals(2, $sig1->at(new Context(0, $sig1, $model)));
-        $this->assertEquals(5, $sig2->at(new Context(0, $sig2, $model)));
+        $this->assertEquals(2, $sig1->at(new SimpleContext(0, $sig1, $model)));
+        $this->assertEquals(5, $sig2->at(new SimpleContext(0, $sig2, $model)));
 
-        $this->assertEquals(15, $sig1->at(new Context(1, $sig1, $model)));
-        $this->assertEquals(14, $sig2->at(new Context(1, $sig2, $model)));
+        $this->assertEquals(15, $sig1->at(new SimpleContext(1, $sig1, $model)));
+        $this->assertEquals(14, $sig2->at(new SimpleContext(1, $sig2, $model)));
     }
 }

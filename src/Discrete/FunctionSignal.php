@@ -13,7 +13,7 @@ final class FunctionSignal extends Signal
 
     /**
      * FunctionSignal constructor.
-     * @param callable(int, Context) $func
+     * @param callable(int, SimpleContext) $func
      */
     public function __construct(callable $func)
     {
