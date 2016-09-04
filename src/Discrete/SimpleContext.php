@@ -17,7 +17,7 @@ class SimpleContext implements Context
     private $model;
 
 
-    public function __construct(int $instant, Signal $signal = null, Model $model = null)
+    public function __construct(int $instant, Model $model = null, Signal $signal = null)
     {
         $this->instant = $instant;
         $this->signal  = $signal;
