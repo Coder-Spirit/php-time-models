@@ -7,9 +7,19 @@ namespace Litipk\MacPhply;
 
 abstract class Signal
 {
+    /** @var array */
+    private $cache = [];
+
+
     public function at(Context $ctx) : float
     {
-        return $this->_at($ctx);
+        $instant = $ctx->getInstant();
+
+        if (!isset($this->cache[$instant])) {
+            $this->cache[$instant] = $this->_at($ctx);
+        }
+
+        return $this->cache[$instant];
     }
 
     abstract protected function _at(Context $ctx) : float;
