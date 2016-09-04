@@ -10,6 +10,9 @@ final class Context
     /** @var int */
     private $instant;
 
+    /** @var int */
+    private $shift;
+
     /** @var null|Signal */
     private $signal;
 
@@ -17,16 +20,25 @@ final class Context
     private $model;
 
 
-    public function __construct(int $instant, Signal $signal = null, Model $model = null)
+    public function __construct(int $instant, Signal $signal = null, Model $model = null, int $shift = 0)
     {
         $this->instant = $instant;
         $this->signal  = $signal;
         $this->model   = $model;
+        $this->shift   = 0;
+    }
+
+    public function withShift(int $shift) : Context
+    {
+        $ctx = clone $this;
+        $ctx->shift = $shift;
+
+        return $ctx;
     }
 
     public function getInstant() : int
     {
-        return $this->instant;
+        return $this->instant + $this->shift;
     }
 
     public function prevSignal(int $stepsToPast) : float

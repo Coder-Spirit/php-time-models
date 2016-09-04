@@ -16,17 +16,26 @@ final class ChainedSignal extends Signal
     /** @var int */
     private $cutPoint;
 
-    public function __construct(Signal $left, Signal $right, int $cutPoint)
+    /** @var int */
+    private $leftShift;
+
+    /** @var int */
+    private $rightShift;
+
+    public function __construct(Signal $left, Signal $right, int $cutPoint, int $leftShift = 0, int $rightShift = 0)
     {
         $this->left  = $left;
         $this->right = $right;
-        $this->cutPoint = $cutPoint;
+
+        $this->cutPoint   = $cutPoint;
+        $this->leftShift  = $leftShift;
+        $this->rightShift = $rightShift;
     }
 
     protected function _at(Context $ctx) : float
     {
         return ($ctx->getInstant() < $this->cutPoint)
-            ? $this->left->_at($ctx)
-            : $this->right->_at($ctx);
+            ? $this->left->_at($ctx->withShift($this->leftShift))
+            : $this->right->_at($ctx->withShift($this->rightShift));
     }
 }
