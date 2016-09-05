@@ -11,7 +11,7 @@ abstract class Signal
     private $cache = [];
 
 
-    public function at(Context $ctx) : float
+    public function at(InstrumentedContext $ctx) : float
     {
         if (null === $ctx->getSignal()) {
             $ctx = $ctx->withSignal($this);
@@ -31,5 +31,5 @@ abstract class Signal
         return $this->_at($ctx);
     }
 
-    abstract protected function _at(Context $ctx) : float;
+    abstract protected function _at(InstrumentedContext $ctx) : float;
 }

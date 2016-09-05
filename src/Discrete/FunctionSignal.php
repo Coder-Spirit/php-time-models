@@ -13,14 +13,14 @@ final class FunctionSignal extends Signal
 
     /**
      * FunctionSignal constructor.
-     * @param callable(int, SimpleContext) $func
+     * @param callable(int, Context) $func
      */
     public function __construct(callable $func)
     {
         $this->func = $func;
     }
 
-    protected function _at(Context $ctx) : float
+    protected function _at(InstrumentedContext $ctx) : float
     {
         return ($this->func)($ctx->getInstant(), $ctx);
     }

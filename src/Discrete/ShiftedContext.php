@@ -5,15 +5,15 @@ declare(strict_types=1);
 namespace Litipk\TimeModels\Discrete;
 
 
-class ShiftedContext implements Context
+class ShiftedContext implements InstrumentedContext
 {
-    /** @var Context */
+    /** @var InstrumentedContext */
     private $ctx;
 
     /** @var int */
     private $shift;
 
-    public function __construct(Context $ctx, int $shift)
+    public function __construct(InstrumentedContext $ctx, int $shift)
     {
         $this->ctx   = $ctx;
         $this->shift = $shift;

@@ -32,7 +32,7 @@ final class ChainedSignal extends Signal
         $this->rightShift = $rightShift;
     }
 
-    protected function _at(Context $ctx) : float
+    protected function _at(InstrumentedContext $ctx) : float
     {
         return ($ctx->getInstant() < $this->cutPoint)
             ? $this->left->_at(new ShiftedContext($ctx, $this->leftShift))

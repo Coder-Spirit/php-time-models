@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Litipk\TimeModels\Discrete;
 
 
-class SimpleContext implements Context
+class SimpleContext implements InstrumentedContext
 {
     /** @var int */
     private $instant;

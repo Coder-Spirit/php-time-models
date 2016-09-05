@@ -14,7 +14,7 @@ final class ConstantSignal extends Signal
         $this->level = $level;
     }
 
-    protected function _at(Context $ctx) : float
+    protected function _at(InstrumentedContext $ctx) : float
     {
         return $this->level;
     }

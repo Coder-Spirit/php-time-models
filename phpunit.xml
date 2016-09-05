@@ -12,7 +12,7 @@
          verbose="true"
 >
     <testsuites>
-        <testsuite name="macphply/tests">
+        <testsuite name="time_models/tests">
             <directory suffix=".php">./tests/</directory>
         </testsuite>
     </testsuites>
