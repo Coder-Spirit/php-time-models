@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace Litipk\TimeModels\Discrete;
 
 
+use Litipk\TimeModels\Discrete\Signals\Signal;
+
+
 class ShiftedContext implements InstrumentedContext
 {
     /** @var InstrumentedContext */
@@ -25,7 +28,7 @@ class ShiftedContext implements InstrumentedContext
     }
 
     /**
-     * @return null|Signal
+     * @return null|\Litipk\TimeModels\Discrete\Signals\Signal
      */
     public function getSignal()
     {

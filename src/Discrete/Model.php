@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace Litipk\TimeModels\Discrete;
 
 
+use Litipk\TimeModels\Discrete\Signals\Signal;
+
+
 final class Model
 {
     /** @var array[string]Signal */

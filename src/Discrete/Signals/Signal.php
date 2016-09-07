@@ -2,7 +2,10 @@
 declare(strict_types=1);
 
 
-namespace Litipk\TimeModels\Discrete;
+namespace Litipk\TimeModels\Discrete\Signals;
+
+
+use Litipk\TimeModels\Discrete\InstrumentedContext;
 
 
 abstract class Signal

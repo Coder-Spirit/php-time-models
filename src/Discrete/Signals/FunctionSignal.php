@@ -2,7 +2,10 @@
 declare(strict_types=1);
 
 
-namespace Litipk\TimeModels\Discrete;
+namespace Litipk\TimeModels\Discrete\Signals;
+
+
+use Litipk\TimeModels\Discrete\InstrumentedContext;
 
 
 final class FunctionSignal extends Signal
@@ -13,10 +16,11 @@ final class FunctionSignal extends Signal
 
     /**
      * FunctionSignal constructor.
-     * @param callable(int, Context) $func
+     * @param callable(int)|callable(int,Context) $func
      */
     public function __construct(callable $func)
     {
+        // TODO: Check $func signature
         $this->func = $func;
     }
 

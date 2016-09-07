@@ -6,8 +6,8 @@ namespace Litipk\TimeModels\Tests\Discrete\Model;
 
 
 use Litipk\TimeModels\Discrete\Context;
-use Litipk\TimeModels\Discrete\FunctionSignal;
 use Litipk\TimeModels\Discrete\Model;
+use Litipk\TimeModels\Discrete\Signals\FunctionSignal;
 
 use PHPUnit\Framework\TestCase;
 

@@ -5,15 +5,18 @@ declare(strict_types=1);
 namespace Litipk\TimeModels\Discrete;
 
 
+use Litipk\TimeModels\Discrete\Signals\Signal;
+
+
 class SimpleContext implements InstrumentedContext
 {
     /** @var int */
     private $instant;
 
-    /** @var null|Signal */
+    /** @var null|\Litipk\TimeModels\Discrete\Signals\Signal */
     private $signal;
 
-    /** @var null|Model */
+    /** @var null|\Litipk\TimeModels\Discrete\Model */
     private $model;
 
 
@@ -38,7 +41,7 @@ class SimpleContext implements InstrumentedContext
     }
 
     /**
-     * @return null|Signal
+     * @return null|\Litipk\TimeModels\Discrete\Signals\Signal
      */
     public function getSignal()
     {
