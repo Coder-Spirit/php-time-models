@@ -13,6 +13,9 @@ class SimpleContext implements InstrumentedContext
     /** @var int */
     private $instant;
 
+    /** @var array */
+    private $dims;
+
     /** @var null|\Litipk\TimeModels\Discrete\Signals\Signal */
     private $signal;
 
@@ -25,6 +28,7 @@ class SimpleContext implements InstrumentedContext
         $this->instant = $instant;
         $this->signal  = $signal;
         $this->model   = $model;
+        $this->dims    = $dims;
     }
 
     public function withSignal(Signal $signal) : Context
