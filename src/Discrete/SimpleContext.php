@@ -20,7 +20,7 @@ class SimpleContext implements InstrumentedContext
     private $model;
 
 
-    public function __construct(int $instant, Model $model = null, Signal $signal = null)
+    public function __construct(int $instant, array $dims = [], Model $model = null, Signal $signal = null)
     {
         $this->instant = $instant;
         $this->signal  = $signal;

@@ -64,10 +64,10 @@ class FunctionSignalTest extends TestCase
                     ->withSignal('sig1', $sig1)
                     ->withSignal('sig2', $sig2);
 
-        $this->assertEquals(2, $sig1->at(new SimpleContext(0, $model)));
-        $this->assertEquals(5, $sig2->at(new SimpleContext(0, $model)));
+        $this->assertEquals(2, $sig1->at(new SimpleContext(0, [], $model)));
+        $this->assertEquals(5, $sig2->at(new SimpleContext(0, [], $model)));
 
-        $this->assertEquals(15, $sig1->at(new SimpleContext(1, $model)));
-        $this->assertEquals(14, $sig2->at(new SimpleContext(1, $model)));
+        $this->assertEquals(15, $sig1->at(new SimpleContext(1, [], $model)));
+        $this->assertEquals(14, $sig2->at(new SimpleContext(1, [], $model)));
     }
 }
