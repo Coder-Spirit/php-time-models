@@ -27,6 +27,12 @@ class ShiftedContext implements InstrumentedContext
         return $this->ctx->getInstant() + $this->shift;
     }
 
+    /** @return int[] */
+    public function getDims() : array
+    {
+        return $this->ctx->getDims();
+    }
+
     /**
      * @return null|\Litipk\TimeModels\Discrete\Signals\Signal
      */

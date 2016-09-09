@@ -24,6 +24,13 @@ class SimpleContext implements InstrumentedContext
     private $model;
 
 
+    /**
+     * SimpleContext constructor.
+     * @param int $instant
+     * @param int[] $dims
+     * @param Model|null $model
+     * @param Signal|null $signal
+     */
     public function __construct(int $instant, array $dims = [], Model $model = null, Signal $signal = null)
     {
         $this->instant = $instant;
@@ -43,6 +50,14 @@ class SimpleContext implements InstrumentedContext
     public function getInstant() : int
     {
         return $this->instant;
+    }
+
+    /**
+     * @return int[]
+     */
+    public function getDims() : array
+    {
+        return $this->dims;
     }
 
     /**
