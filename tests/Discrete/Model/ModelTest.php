@@ -24,13 +24,13 @@ class ModelTest extends TestCase
         $sig1 = new FunctionSignal(function (int $instant, Context $ctx) {
             return ($instant <= 0)
                 ? 2
-                : 3 * $ctx->prevEnvSignals('sig2', 1);
+                : 3 * $ctx->globalPast('sig2', 1);
         });
 
         $sig2 = new FunctionSignal(function (int $instant, Context $ctx) {
             return ($instant <= 0)
                 ? 5
-                : 7 * $ctx->prevEnvSignals('sig1', 1);
+                : 7 * $ctx->globalPast('sig1', 1);
         });
 
         $model = new Model();

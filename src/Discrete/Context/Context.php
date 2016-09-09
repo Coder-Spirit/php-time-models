@@ -7,7 +7,7 @@ namespace Litipk\TimeModels\Discrete\Context;
 
 interface Context
 {
-    public function prevSignal(int $stepsToPast) : float;
+    public function past(int $stepsToPast, array $dims = null) : float;
 
-    public function prevEnvSignals(string $signalName, int $stepsToPast) : float;
+    public function globalPast(string $signalName, int $stepsToPast, array $dims = null) : float;
 }

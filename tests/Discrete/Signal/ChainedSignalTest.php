@@ -66,7 +66,7 @@ class ChainedSignalTest extends TestCase
             return $instant*2;
         });
         $sig2 = new FunctionSignal(function (int $instant, Context $ctx) {
-            return $ctx->prevSignal(1)+1;
+            return $ctx->past(1)+1;
         });
 
         $signal = new ChainedSignal($sig1, $sig2, 5, -3, 4);
@@ -90,7 +90,7 @@ class ChainedSignalTest extends TestCase
             return $instant*2;
         });
         $sig2 = new FunctionSignal(function (int $instant, Context $ctx) {
-            return $ctx->prevSignal(1)+$instant;
+            return $ctx->past(1)+$instant;
         });
 
         $signal = new ChainedSignal($sig1, $sig2, 5, -3, 4);
@@ -131,7 +131,7 @@ class ChainedSignalTest extends TestCase
             return $instant*2;
         });
         $sig2 = new FunctionSignal(function (int $instant, Context $ctx) {
-            return $ctx->prevSignal(1)+$instant;
+            return $ctx->past(1)+$instant;
         });
         $sig3 = new ConstantSignal(150);
 

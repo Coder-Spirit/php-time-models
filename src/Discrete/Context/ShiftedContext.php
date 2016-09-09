@@ -41,14 +41,14 @@ class ShiftedContext implements InstrumentedContext
         return $this->ctx->getSignal();
     }
 
-    public function prevSignal(int $stepsToPast) : float
+    public function past(int $stepsToPast, array $dims = []) : float
     {
-        return $this->ctx->prevSignal($stepsToPast);
+        return $this->ctx->past($stepsToPast, $dims);
     }
 
-    public function prevEnvSignals(string $signalName, int $stepsToPast) : float
+    public function globalPast(string $signalName, int $stepsToPast, array $dims = []) : float
     {
-        return $this->ctx->prevEnvSignals($signalName, $stepsToPast);
+        return $this->ctx->globalPast($signalName, $stepsToPast, $dims);
     }
 
     public function withSignal(Signal $signal) : Context
