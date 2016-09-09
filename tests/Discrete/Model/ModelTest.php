@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Litipk\TimeModels\Tests\Discrete\Model;
 
 
-use Litipk\TimeModels\Discrete\Context;
+use Litipk\TimeModels\Discrete\Context\Context;
 use Litipk\TimeModels\Discrete\Model;
 use Litipk\TimeModels\Discrete\Signals\FunctionSignal;
 

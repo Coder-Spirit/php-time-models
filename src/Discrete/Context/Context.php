@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 
-namespace Litipk\TimeModels\Discrete;
+namespace Litipk\TimeModels\Discrete\Context;
 
 
 interface Context

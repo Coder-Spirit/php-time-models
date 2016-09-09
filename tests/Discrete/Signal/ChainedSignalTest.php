@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Litipk\TimeModels\Tests\Discrete\Signal;
 
 
-use Litipk\TimeModels\Discrete\Context;
+use Litipk\TimeModels\Discrete\Context\Context;
+use Litipk\TimeModels\Discrete\Context\SimpleContext;
 use Litipk\TimeModels\Discrete\Signals\ChainedSignal;
 use Litipk\TimeModels\Discrete\Signals\ConstantSignal;
 use Litipk\TimeModels\Discrete\Signals\FunctionSignal;
-use Litipk\TimeModels\Discrete\SimpleContext;
 
 use PHPUnit\Framework\TestCase;
 

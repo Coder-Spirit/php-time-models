@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Litipk\TimeModels\Discrete\Signals;
 
 
-use Litipk\TimeModels\Discrete\InstrumentedContext;
+use Litipk\TimeModels\Discrete\Context\InstrumentedContext;
 
 
 final class FunctionSignal extends Signal
