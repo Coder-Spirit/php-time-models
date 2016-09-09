@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Litipk\TimeModels\Discrete\Signals;
 
 
-use Litipk\TimeModels\Discrete\InstrumentedContext;
-use Litipk\TimeModels\Discrete\ShiftedContext;
+use Litipk\TimeModels\Discrete\Context\InstrumentedContext;
+use Litipk\TimeModels\Discrete\Context\ShiftedContext;
 
 
 final class ChainedSignal extends Signal

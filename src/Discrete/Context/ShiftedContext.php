@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 
-namespace Litipk\TimeModels\Discrete;
+namespace Litipk\TimeModels\Discrete\Context;
 
 
 use Litipk\TimeModels\Discrete\Signals\Signal;
@@ -27,6 +27,12 @@ class ShiftedContext implements InstrumentedContext
         return $this->ctx->getInstant() + $this->shift;
     }
 
+    /** @return int[] */
+    public function getDims() : array
+    {
+        return $this->ctx->getDims();
+    }
+
     /**
      * @return null|\Litipk\TimeModels\Discrete\Signals\Signal
      */
@@ -35,14 +41,14 @@ class ShiftedContext implements InstrumentedContext
         return $this->ctx->getSignal();
     }
 
-    public function prevSignal(int $stepsToPast) : float
+    public function past(int $stepsToPast, array $dims = []) : float
     {
-        return $this->ctx->prevSignal($stepsToPast);
+        return $this->ctx->past($stepsToPast, $dims);
     }
 
-    public function prevEnvSignals(string $signalName, int $stepsToPast) : float
+    public function globalPast(string $signalName, int $stepsToPast, array $dims = []) : float
     {
-        return $this->ctx->prevEnvSignals($signalName, $stepsToPast);
+        return $this->ctx->globalPast($signalName, $stepsToPast, $dims);
     }
 
     public function withSignal(Signal $signal) : Context

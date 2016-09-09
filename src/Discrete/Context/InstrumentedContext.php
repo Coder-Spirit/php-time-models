@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 
-namespace Litipk\TimeModels\Discrete;
+namespace Litipk\TimeModels\Discrete\Context;
 
 
 use Litipk\TimeModels\Discrete\Signals\Signal;
@@ -13,6 +13,9 @@ interface InstrumentedContext extends Context
     public function withSignal(Signal $signal) : Context;
 
     public function getInstant() : int;
+
+    /** @return int[] */
+    public function getDims() : array;
 
     /**
      * @return null|\Litipk\TimeModels\Discrete\Signals\Signal;

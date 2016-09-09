@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Litipk\TimeModels\Discrete\Signals;
 
 
-use Litipk\TimeModels\Discrete\InstrumentedContext;
+use Litipk\TimeModels\Discrete\Context\InstrumentedContext;
 
 
 abstract class Signal
@@ -20,15 +20,16 @@ abstract class Signal
             $ctx = $ctx->withSignal($this);
         }
 
-        $instant = $ctx->getInstant();
+        $ts = $ctx->getInstant();
+        $cK = implode(',', $ctx->getDims());
 
         // We only use the cache if the context's signal matches this one.
         if ($this === $ctx->getSignal()) {
-            if (!isset($this->cache[$instant])) {
-                $this->cache[$instant] = $this->_at($ctx);
+            if (!isset($this->cache[$ts][$cK])) {
+                $this->cache[$ts][$cK] = $this->_at($ctx);
             }
 
-            return $this->cache[$instant];
+            return $this->cache[$ts][$cK];
         }
 
         return $this->_at($ctx);

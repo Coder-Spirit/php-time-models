@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Litipk\TimeModels\Tests\Discrete\Signal;
 
 
-use Litipk\TimeModels\Discrete\Context;
+use Litipk\TimeModels\Discrete\Context\Context;
+use Litipk\TimeModels\Discrete\Context\SimpleContext;
 use Litipk\TimeModels\Discrete\Signals\ChainedSignal;
 use Litipk\TimeModels\Discrete\Signals\ConstantSignal;
 use Litipk\TimeModels\Discrete\Signals\FunctionSignal;
-use Litipk\TimeModels\Discrete\SimpleContext;
 
 use PHPUnit\Framework\TestCase;
 
@@ -66,7 +66,7 @@ class ChainedSignalTest extends TestCase
             return $instant*2;
         });
         $sig2 = new FunctionSignal(function (int $instant, Context $ctx) {
-            return $ctx->prevSignal(1)+1;
+            return $ctx->past(1)+1;
         });
 
         $signal = new ChainedSignal($sig1, $sig2, 5, -3, 4);
@@ -90,7 +90,7 @@ class ChainedSignalTest extends TestCase
             return $instant*2;
         });
         $sig2 = new FunctionSignal(function (int $instant, Context $ctx) {
-            return $ctx->prevSignal(1)+$instant;
+            return $ctx->past(1)+$instant;
         });
 
         $signal = new ChainedSignal($sig1, $sig2, 5, -3, 4);
@@ -131,7 +131,7 @@ class ChainedSignalTest extends TestCase
             return $instant*2;
         });
         $sig2 = new FunctionSignal(function (int $instant, Context $ctx) {
-            return $ctx->prevSignal(1)+$instant;
+            return $ctx->past(1)+$instant;
         });
         $sig3 = new ConstantSignal(150);
 

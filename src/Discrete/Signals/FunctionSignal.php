@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Litipk\TimeModels\Discrete\Signals;
 
 
-use Litipk\TimeModels\Discrete\InstrumentedContext;
+use Litipk\TimeModels\Discrete\Context\InstrumentedContext;
 
 
 final class FunctionSignal extends Signal
@@ -26,6 +26,8 @@ final class FunctionSignal extends Signal
 
     protected function _at(InstrumentedContext $ctx) : float
     {
-        return ($this->func)($ctx->getInstant(), $ctx);
+        return call_user_func_array(
+            $this->func, array_merge([$ctx->getInstant()], $ctx->getDims(), [$ctx])
+        );
     }
 }

@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Litipk\TimeModels\Tests\Discrete\Signal;
 
 
+use Litipk\TimeModels\Discrete\Context\SimpleContext;
 use Litipk\TimeModels\Discrete\Signals\ConstantSignal;
-use Litipk\TimeModels\Discrete\SimpleContext;
 
 use PHPUnit\Framework\TestCase;
 

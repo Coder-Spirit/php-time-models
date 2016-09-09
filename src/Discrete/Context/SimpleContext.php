@@ -2,9 +2,10 @@
 declare(strict_types=1);
 
 
-namespace Litipk\TimeModels\Discrete;
+namespace Litipk\TimeModels\Discrete\Context;
 
 
+use Litipk\TimeModels\Discrete\Model;
 use Litipk\TimeModels\Discrete\Signals\Signal;
 
 
@@ -13,6 +14,9 @@ class SimpleContext implements InstrumentedContext
     /** @var int */
     private $instant;
 
+    /** @var array */
+    private $dims;
+
     /** @var null|\Litipk\TimeModels\Discrete\Signals\Signal */
     private $signal;
 
@@ -20,11 +24,19 @@ class SimpleContext implements InstrumentedContext
     private $model;
 
 
-    public function __construct(int $instant, Model $model = null, Signal $signal = null)
+    /**
+     * SimpleContext constructor.
+     * @param int $instant
+     * @param int[] $dims
+     * @param Model|null $model
+     * @param Signal|null $signal
+     */
+    public function __construct(int $instant, array $dims = [], Model $model = null, Signal $signal = null)
     {
         $this->instant = $instant;
         $this->signal  = $signal;
         $this->model   = $model;
+        $this->dims    = $dims;
     }
 
     public function withSignal(Signal $signal) : Context
@@ -41,6 +53,14 @@ class SimpleContext implements InstrumentedContext
     }
 
     /**
+     * @return int[]
+     */
+    public function getDims() : array
+    {
+        return $this->dims;
+    }
+
+    /**
      * @return null|\Litipk\TimeModels\Discrete\Signals\Signal
      */
     public function getSignal()
@@ -48,27 +68,30 @@ class SimpleContext implements InstrumentedContext
         return $this->signal;
     }
 
-    public function prevSignal(int $stepsToPast) : float
+    public function past(int $stepsToPast, array $dims = null) : float
     {
         return $this
             ->signal
-            ->at($this->getPastContext($stepsToPast));
+            ->at($this->getPastContext($stepsToPast, $dims));
     }
 
-    public function prevEnvSignals(string $signalName, int $stepsToPast) : float
+    public function globalPast(string $signalName, int $stepsToPast, array $dims = null) : float
     {
         return $this
             ->model
             ->getSignal($signalName)
-            ->at($this->getPastContext($stepsToPast));
+            ->at($this->getPastContext($stepsToPast, $dims));
     }
 
-    private function getPastContext(int $stepsToPast) : Context
+    private function getPastContext(int $stepsToPast, array $dims = null) : Context
     {
         if ($stepsToPast <= 0) throw new \InvalidArgumentException('Only positive values are allowed');
 
         $ctx = clone $this;
         $ctx->instant -= $stepsToPast;
+        if (null !== $dims) {
+            $ctx->dims = $dims;
+        }
 
         return $ctx;
     }

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Litipk\TimeModels\Discrete;
 
 
+use Litipk\TimeModels\Discrete\Context\SimpleContext;
 use Litipk\TimeModels\Discrete\Signals\Signal;
 
 
@@ -43,8 +44,8 @@ final class Model
         return $this->params[$paramName];
     }
 
-    public function evalSignal(string $signalName, int $instant) : float
+    public function evalSignal(string $signalName, int $instant, array ...$dims) : float
     {
-        return $this->getSignal($signalName)->at(new SimpleContext($instant, $this));
+        return $this->getSignal($signalName)->at(new SimpleContext($instant, $dims, $this));
     }
 }
