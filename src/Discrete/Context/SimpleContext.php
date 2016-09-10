@@ -39,10 +39,18 @@ class SimpleContext implements InstrumentedContext
         $this->dims    = $dims;
     }
 
-    public function withSignal(Signal $signal) : Context
+    public function withSignal(Signal $signal) : InstrumentedContext
     {
         $ctx = clone $this;
         $ctx->signal = $signal;
+
+        return $ctx;
+    }
+
+    public function withInstant(int $instant) : InstrumentedContext
+    {
+        $ctx = clone $this;
+        $ctx->instant = $instant;
 
         return $ctx;
     }

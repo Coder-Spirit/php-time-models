@@ -56,7 +56,7 @@ class ShiftedContext implements InstrumentedContext
         return $this->ctx->globalPast($signalName, $stepsToPast, ...$dims);
     }
 
-    public function withSignal(Signal $signal) : Context
+    public function withSignal(Signal $signal) : InstrumentedContext
     {
         $ctx = clone $this;
         $ctx->ctx = $ctx->ctx->withSignal($signal);

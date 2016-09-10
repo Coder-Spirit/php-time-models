@@ -10,7 +10,7 @@ use Litipk\TimeModels\Discrete\Signals\Signal;
 
 interface InstrumentedContext extends Context
 {
-    public function withSignal(Signal $signal) : Context;
+    public function withSignal(Signal $signal) : InstrumentedContext;
 
     public function getInstant() : int;
 

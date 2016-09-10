@@ -75,4 +75,19 @@ class ModelTest extends TestCase
         $this->assertEquals(2, $model->eval('sig', 1, 0));
         $this->assertEquals(5, $model->eval('sig', 1, 1));
     }
+
+    public function testEvalTimeSlice()
+    {
+        $signal = new FunctionSignal(function (int $instant, Context $ctx) {
+            return ($instant <= 0)
+                ? 1
+                : 2 * $ctx->past(1);
+        });
+        $model = (new Model())->withSignal('sig', $signal);
+
+        $this->assertEquals(
+            [1.0, 2.0, 4.0, 8.0],
+            $model->evalTimeSlice('sig', 0, 3)
+        );
+    }
 }

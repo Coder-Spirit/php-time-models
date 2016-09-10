@@ -48,4 +48,21 @@ final class Model
     {
         return $this->getSignal($signalName)->at(new SimpleContext($instant, $dims, $this));
     }
+
+    /**
+     * @param string $signalName
+     * @param int $since
+     * @param int $until
+     * @param \int[] ...$dims
+     * @return float[]
+     */
+    public function evalTimeSlice(string $signalName, int $since, int $until, int ...$dims) : array
+    {
+        $signal = $this->getSignal($signalName);
+        $ctx = new SimpleContext($since, $dims, $this);
+
+        return array_map(function ($instant) use ($signal, $ctx) {
+            return $signal->at($ctx->withInstant($instant));
+        }, range($since, $until));
+    }
 }
