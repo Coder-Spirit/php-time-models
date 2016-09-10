@@ -73,28 +73,28 @@ class SimpleContext implements InstrumentedContext
         return $this->model->getParam($paramName);
     }
 
-    public function past(int $stepsToPast, array $dims = null) : float
+    public function past(int $stepsToPast, ...$dims) : float
     {
         return $this
             ->signal
-            ->at($this->getPastContext($stepsToPast, $dims));
+            ->at($this->getPastContext($stepsToPast, ...$dims));
     }
 
-    public function globalPast(string $signalName, int $stepsToPast, array $dims = null) : float
+    public function globalPast(string $signalName, int $stepsToPast, ...$dims) : float
     {
         return $this
             ->model
             ->getSignal($signalName)
-            ->at($this->getPastContext($stepsToPast, $dims));
+            ->at($this->getPastContext($stepsToPast, ...$dims));
     }
 
-    private function getPastContext(int $stepsToPast, array $dims = null) : Context
+    private function getPastContext(int $stepsToPast, ...$dims) : Context
     {
         if ($stepsToPast <= 0) throw new \InvalidArgumentException('Only positive values are allowed');
 
         $ctx = clone $this;
         $ctx->instant -= $stepsToPast;
-        if (null !== $dims) {
+        if (!empty($dims)) {
             $ctx->dims = $dims;
         }
 
