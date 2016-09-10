@@ -68,6 +68,11 @@ class SimpleContext implements InstrumentedContext
         return $this->signal;
     }
 
+    public function param(string $paramName) : float
+    {
+        return $this->model->getParam($paramName);
+    }
+
     public function past(int $stepsToPast, array $dims = null) : float
     {
         return $this
