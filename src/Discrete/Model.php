@@ -21,7 +21,7 @@ final class Model
     public function withSignal(string $signalName, Signal $signal) : Model
     {
         $model = clone $this;
-        $model->signals[$signalName] = clone $signal;
+        $model->signals[$signalName] = $signal->getUncached();
 
         return $model;
     }
@@ -29,7 +29,11 @@ final class Model
     public function withParam(string $paramName, float $param) : Model
     {
         $model = clone $this;
+
         $model->params[$paramName] = $param;
+        $model->signals = array_map(function (Signal $s) {
+            return $s->getUncached();
+        }, $model->signals);
 
         return $model;
     }

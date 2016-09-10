@@ -14,6 +14,14 @@ abstract class Signal
     private $cache = [];
 
 
+    public function getUncached() : Signal
+    {
+        $signal = clone $this;
+        $signal->cache = [];
+
+        return $signal;
+    }
+
     public function at(InstrumentedContext $ctx) : float
     {
         if (null === $ctx->getSignal()) {

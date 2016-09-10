@@ -116,4 +116,29 @@ class ModelTest extends TestCase
         $this->assertEquals(5, $m2->eval('sig', 1, 0));
         $this->assertEquals(12, $m2->eval('sig', 1, 1));
     }
+
+    public function testWithParam_afterEvaluateSignal()
+    {
+        $sig = new FunctionSignal(function (int $instant, int $shift, Context $ctx) {
+            return $instant * $ctx->param('p1') + $shift * $ctx->param('p2');
+        });
+        $m1 = (new Model())
+            ->withParam('p1', 2)
+            ->withParam('p2', 3)
+            ->withSignal('sig', $sig);
+
+        $m2 = $m1
+            ->withParam('p1', 5)
+            ->withParam('p2', 7);
+
+        $this->assertEquals(0, $m1->eval('sig', 0, 0));
+        $this->assertEquals(3, $m1->eval('sig', 0, 1));
+        $this->assertEquals(2, $m1->eval('sig', 1, 0));
+        $this->assertEquals(5, $m1->eval('sig', 1, 1));
+
+        $this->assertEquals(0, $m2->eval('sig', 0, 0));
+        $this->assertEquals(7, $m2->eval('sig', 0, 1));
+        $this->assertEquals(5, $m2->eval('sig', 1, 0));
+        $this->assertEquals(12, $m2->eval('sig', 1, 1));
+    }
 }
