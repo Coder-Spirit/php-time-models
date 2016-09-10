@@ -21,7 +21,7 @@ final class Model
     public function withSignal(string $signalName, Signal $signal) : Model
     {
         $model = clone $this;
-        $model->signals[$signalName] = $signal;
+        $model->signals[$signalName] = clone $signal;
 
         return $model;
     }
