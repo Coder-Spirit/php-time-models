@@ -1,0 +1,15 @@
+language: php
+
+php:
+  - 7.0
+
+before_install:
+  - bash -c 'mkdir bin'
+  - travis_retry bash -c 'curl -sS https://getcomposer.org/installer | php -- --install-dir=bin'
+  - bash -c 'chmod +x bin/composer.phar'
+
+install:
+  - travis_retry ./bin/composer.phar install --no-interaction --prefer-source
+
+script:
+  - vendor/bin/phpunit
