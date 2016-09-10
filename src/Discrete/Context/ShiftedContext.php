@@ -46,7 +46,7 @@ class ShiftedContext implements InstrumentedContext
         return $this->ctx->param($paramName);
     }
 
-    public function past(int $stepsToPast, ...$dims) : float
+    public function past(int $stepsToPast, int ...$dims) : float
     {
         return $this->ctx->past($stepsToPast, ...$dims);
     }

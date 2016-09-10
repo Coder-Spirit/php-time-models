@@ -9,7 +9,7 @@ interface Context
 {
     public function param(string $paramName) : float;
 
-    public function past(int $stepsToPast, ...$dims) : float;
+    public function past(int $stepsToPast, int ...$dims) : float;
 
     public function globalPast(string $signalName, int $stepsToPast, int ...$dims) : float;
 }
