@@ -80,7 +80,7 @@ class SimpleContext implements InstrumentedContext
             ->at($this->getPastContext($stepsToPast, ...$dims));
     }
 
-    public function globalPast(string $signalName, int $stepsToPast, ...$dims) : float
+    public function globalPast(string $signalName, int $stepsToPast, int ...$dims) : float
     {
         return $this
             ->model
@@ -88,7 +88,7 @@ class SimpleContext implements InstrumentedContext
             ->at($this->getPastContext($stepsToPast, ...$dims));
     }
 
-    private function getPastContext(int $stepsToPast, ...$dims) : Context
+    private function getPastContext(int $stepsToPast, int ...$dims) : Context
     {
         if ($stepsToPast <= 0) throw new \InvalidArgumentException('Only positive values are allowed');
 

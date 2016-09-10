@@ -11,5 +11,5 @@ interface Context
 
     public function past(int $stepsToPast, ...$dims) : float;
 
-    public function globalPast(string $signalName, int $stepsToPast, ...$dims) : float;
+    public function globalPast(string $signalName, int $stepsToPast, int ...$dims) : float;
 }
