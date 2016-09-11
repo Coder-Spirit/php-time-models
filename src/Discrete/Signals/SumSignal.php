@@ -24,9 +24,9 @@ final class SumSignal extends Signal
     {
         $this->signals = array_map(function ($signal) {
             if ($signal instanceof Signal) {
-                return $signal;
+                return $signal->getUncached();
             } elseif (is_array($signal) && 2 === count($signal) && $signal[1] instanceof Signal) {
-                return $signal[1];
+                return $signal[1]->getUncached();
             } else {
                 throw new \TypeError();
             }

@@ -15,7 +15,7 @@ final class MulSignal extends Signal
 
     public function __construct(Signal ... $signals)
     {
-        $this->signals = $signals;
+        $this->signals = array_map(function (Signal $s) { return $s->getUncached(); }, $signals);
     }
 
     protected function _at(InstrumentedContext $ctx) : float
