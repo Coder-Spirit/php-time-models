@@ -9,7 +9,7 @@ use Litipk\TimeModels\Discrete\Model;
 use Litipk\TimeModels\Discrete\Signals\Signal;
 
 
-class SimpleContext implements InstrumentedContext
+final class SimpleContext implements InstrumentedContext
 {
     /** @var int */
     private $instant;

@@ -8,7 +8,7 @@ namespace Litipk\TimeModels\Discrete\Context;
 use Litipk\TimeModels\Discrete\Signals\Signal;
 
 
-class ShiftedContext implements InstrumentedContext
+final class ShiftedContext implements InstrumentedContext
 {
     /** @var InstrumentedContext */
     private $ctx;
