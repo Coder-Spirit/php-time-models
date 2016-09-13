@@ -12,6 +12,8 @@ interface InstrumentedContext extends Context
 {
     public function withSignal(Signal $signal) : InstrumentedContext;
 
+    public function withInstant(int $instant) : InstrumentedContext;
+
     public function getInstant() : int;
 
     /** @return int[] */

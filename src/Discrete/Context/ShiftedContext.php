@@ -22,6 +22,22 @@ final class ShiftedContext implements InstrumentedContext
         $this->shift = $shift;
     }
 
+    public function withSignal(Signal $signal) : InstrumentedContext
+    {
+        $ctx = clone $this;
+        $ctx->ctx = $ctx->ctx->withSignal($signal);
+
+        return $ctx;
+    }
+
+    public function withInstant(int $instant) : InstrumentedContext
+    {
+        $ctx = clone $this;
+        $ctx->ctx = $ctx->ctx->withInstant($instant);
+
+        return $ctx;
+    }
+
     public function getInstant() : int
     {
         return $this->ctx->getInstant() + $this->shift;
@@ -54,13 +70,5 @@ final class ShiftedContext implements InstrumentedContext
     public function globalPast(string $signalName, int $stepsToPast, int ...$dims) : float
     {
         return $this->ctx->globalPast($signalName, $stepsToPast, ...$dims);
-    }
-
-    public function withSignal(Signal $signal) : InstrumentedContext
-    {
-        $ctx = clone $this;
-        $ctx->ctx = $ctx->ctx->withSignal($signal);
-
-        return $ctx;
     }
 }
