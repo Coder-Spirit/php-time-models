@@ -30,10 +30,10 @@ final class ShiftedContext implements InstrumentedContext
         return $ctx;
     }
 
-    public function withInstant(int $instant) : InstrumentedContext
+    public function withInstant(int $t) : InstrumentedContext
     {
         $ctx = clone $this;
-        $ctx->ctx = $ctx->ctx->withInstant($instant);
+        $ctx->ctx = $ctx->ctx->withInstant($t);
 
         return $ctx;
     }

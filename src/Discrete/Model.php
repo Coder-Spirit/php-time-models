@@ -48,9 +48,9 @@ final class Model
         return $this->params[$paramName];
     }
 
-    public function eval(string $signalName, int $instant, int ...$dims) : float
+    public function eval(string $signalName, int $t, int ...$dims) : float
     {
-        return $this->getSignal($signalName)->at(new SimpleContext($instant, $dims, $this));
+        return $this->getSignal($signalName)->at(new SimpleContext($t, $dims, $this));
     }
 
     /**
@@ -65,8 +65,8 @@ final class Model
         $signal = $this->getSignal($signalName);
         $ctx = new SimpleContext($since, $dims, $this);
 
-        return array_map(function ($instant) use ($signal, $ctx) {
-            return $signal->at($ctx->withInstant($instant));
+        return array_map(function ($t) use ($signal, $ctx) {
+            return $signal->at($ctx->withInstant($t));
         }, range($since, $until));
     }
 }

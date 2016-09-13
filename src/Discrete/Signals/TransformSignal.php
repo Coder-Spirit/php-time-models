@@ -23,8 +23,8 @@ final class TransformSignal extends Signal
     /**
      * TransformSignal constructor.
      * @param Signal $signal
-     * @param null|callable $T      callable(float $signalValue, int $instant, int ...$dims):float
-     * @param null|callable $timeT  callable(int $instant):int
+     * @param null|callable $T      callable(float $signalValue, int $t, int ...$dims):float
+     * @param null|callable $timeT  callable(int $t):int
      */
     public function __construct(Signal $signal, callable $T = null, callable $timeT = null)
     {

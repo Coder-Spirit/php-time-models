@@ -12,7 +12,7 @@ use Litipk\TimeModels\Discrete\Signals\Signal;
 final class SimpleContext implements InstrumentedContext
 {
     /** @var int */
-    private $instant;
+    private $t;
 
     /** @var array */
     private $dims;
@@ -26,14 +26,14 @@ final class SimpleContext implements InstrumentedContext
 
     /**
      * SimpleContext constructor.
-     * @param int $instant
+     * @param int $t
      * @param int[] $dims
      * @param Model|null $model
      * @param Signal|null $signal
      */
-    public function __construct(int $instant, array $dims = [], Model $model = null, Signal $signal = null)
+    public function __construct(int $t, array $dims = [], Model $model = null, Signal $signal = null)
     {
-        $this->instant = $instant;
+        $this->instant = $t;
         $this->signal  = $signal;
         $this->model   = $model;
         $this->dims    = $dims;
@@ -47,10 +47,10 @@ final class SimpleContext implements InstrumentedContext
         return $ctx;
     }
 
-    public function withInstant(int $instant) : InstrumentedContext
+    public function withInstant(int $t) : InstrumentedContext
     {
         $ctx = clone $this;
-        $ctx->instant = $instant;
+        $ctx->instant = $t;
 
         return $ctx;
     }
