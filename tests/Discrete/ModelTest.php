@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 
-namespace Litipk\TimeModels\Tests\Discrete\Model;
+namespace Litipk\TimeModels\Tests\Discrete;
 
 
 use Litipk\TimeModels\Discrete\Context\Context;
