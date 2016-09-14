@@ -6,6 +6,7 @@ namespace Litipk\TimeModels\Discrete\Signals;
 
 
 use Litipk\TimeModels\Discrete\Context\InstrumentedContext;
+use Litipk\TimeModels\Discrete\Context\ShiftedContext;
 
 
 final class TransformSignal extends Signal
@@ -35,11 +36,14 @@ final class TransformSignal extends Signal
 
     protected function _at(InstrumentedContext $ctx) : float
     {
-        $localCtx = $ctx->withInstant(($this->timeT)($ctx->getInstant()));
+        $t        = $ctx->getInstant();
+        $t2       = ($this->timeT)($t);
+        $shift    = $t2-$t;
+        $localCtx = ($shift !== 0) ? new ShiftedContext($ctx, $shift) : $ctx;
 
         return (float)call_user_func_array(
             $this->T,
-            array_merge([$this->signal->_at($localCtx), $localCtx->getInstant()], $localCtx->getDims())
+            array_merge([$this->signal->_at($localCtx), $t2], $localCtx->getDims())
         );
     }
 }

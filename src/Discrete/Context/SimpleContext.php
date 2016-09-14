@@ -33,10 +33,10 @@ final class SimpleContext implements InstrumentedContext
      */
     public function __construct(int $t, array $dims = [], Model $model = null, Signal $signal = null)
     {
-        $this->instant = $t;
-        $this->signal  = $signal;
-        $this->model   = $model;
-        $this->dims    = $dims;
+        $this->t      = $t;
+        $this->signal = $signal;
+        $this->model  = $model;
+        $this->dims   = $dims;
     }
 
     public function withSignal(Signal $signal) : InstrumentedContext
@@ -50,14 +50,14 @@ final class SimpleContext implements InstrumentedContext
     public function withInstant(int $t) : InstrumentedContext
     {
         $ctx = clone $this;
-        $ctx->instant = $t;
+        $ctx->t = $t;
 
         return $ctx;
     }
 
     public function getInstant() : int
     {
-        return $this->instant;
+        return $this->t;
     }
 
     /**
@@ -101,7 +101,7 @@ final class SimpleContext implements InstrumentedContext
         if ($stepsToPast <= 0) throw new \InvalidArgumentException('Only positive values are allowed');
 
         $ctx = clone $this;
-        $ctx->instant -= $stepsToPast;
+        $ctx->t -= $stepsToPast;
         if (!empty($dims)) {
             $ctx->dims = $dims;
         }

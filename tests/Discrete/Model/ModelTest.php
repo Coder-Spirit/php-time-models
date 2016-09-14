@@ -6,6 +6,7 @@ namespace Litipk\TimeModels\Tests\Discrete\Model;
 
 
 use Litipk\TimeModels\Discrete\Context\Context;
+use Litipk\TimeModels\Discrete\Context\SimpleContext;
 use Litipk\TimeModels\Discrete\Model;
 use Litipk\TimeModels\Discrete\Signals\FunctionSignal;
 
@@ -47,8 +48,8 @@ class ModelTest extends TestCase
 
     public function testAt_ScalarField()
     {
-        $sig = new FunctionSignal(function (int $instant, int $shift) {
-            return sin($instant + 2*$shift);
+        $sig = new FunctionSignal(function (int $t, int $d1) : float {
+            return sin($t + 2*$d1);
         });
         $model = new Model();
         $model = $model
@@ -58,6 +59,30 @@ class ModelTest extends TestCase
         $this->assertEquals(sin(2), $model->eval('sig', 0, 1));
         $this->assertEquals(sin(1), $model->eval('sig', 1, 0));
         $this->assertEquals(sin(3), $model->eval('sig', 1, 1));
+    }
+
+    public function testAt_ScalarField_depending_on_past()
+    {
+        $sig = new FunctionSignal(function (int $t, int $d1, Context $ctx) : float {
+            if (0 === $t) {
+                return ($d1 > 0)
+                    ? 2.0
+                    : 3.0;
+            }
+
+            return ($d1 > 0)
+                ? 5.0 * $ctx->past(1, 0)
+                : 7.0 * $ctx->past(1, 1);
+        });
+
+        $this->assertEquals(3.0, $sig->at(new SimpleContext(0, [0])));
+        $this->assertEquals(2.0, $sig->at(new SimpleContext(0, [1])));
+
+        $this->assertEquals(14.0, $sig->at(new SimpleContext(1, [0])));
+        $this->assertEquals(15.0, $sig->at(new SimpleContext(1, [1])));
+
+        $this->assertEquals(105.0, $sig->at(new SimpleContext(2, [0])));
+        $this->assertEquals(70.0, $sig->at(new SimpleContext(2, [1])));
     }
 
     public function testWithParam()
