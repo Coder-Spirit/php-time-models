@@ -61,4 +61,21 @@ class ByNameSignalTest extends TestCase
         $sig1 = new ByNameSignal('sigX');
         (new Model())->withSignal('sig1', $sig1);
     }
+
+    /**
+     * @expectedException \Litipk\TimeModels\Exceptions\CyclicDependenceException
+     */
+    public function test_longReferencesCycle()
+    {
+        $sig1a = new ConstantSignal(42);
+        $sig2  = new ByNameSignal('sig1');
+        $sig3  = new ByNameSignal('sig2');
+        $sig1b = new ByNameSignal('sig3');
+
+        (new Model())
+            ->withSignal('sig1', $sig1a)
+            ->withSignal('sig2', $sig2)
+            ->withSignal('sig3', $sig3)
+            ->withSignal('sig1', $sig1b);
+    }
 }
