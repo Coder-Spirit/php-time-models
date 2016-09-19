@@ -57,6 +57,14 @@ final class ShiftedContext implements InstrumentedContext
         return $this->ctx->getSignal();
     }
 
+    /**
+     * @return null|\Litipk\TimeModels\Discrete\Model
+     */
+    public function getModel()
+    {
+        return $this->ctx->getModel();
+    }
+
     public function param(string $paramName) : float
     {
         return $this->ctx->param($paramName);

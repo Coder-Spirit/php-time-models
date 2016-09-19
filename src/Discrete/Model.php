@@ -6,6 +6,7 @@ namespace Litipk\TimeModels\Discrete;
 
 
 use Litipk\TimeModels\Discrete\Context\SimpleContext;
+use Litipk\TimeModels\Discrete\Signals\ConstantSignal;
 use Litipk\TimeModels\Discrete\Signals\Signal;
 
 
@@ -23,6 +24,10 @@ final class Model
         $model = clone $this;
         $model->signals[$signalName] = $signal->getUncached();
 
+        if ($signal instanceof ConstantSignal) {
+            $model->params[$signalName] = $signal->getLevel();
+        }
+
         return $model;
     }
 
@@ -31,9 +36,11 @@ final class Model
         $model = clone $this;
 
         $model->params[$paramName] = $param;
+
         $model->signals = array_map(function (Signal $s) {
             return $s->getUncached();
         }, $model->signals);
+        $model->signals[$paramName] = new ConstantSignal($param);
 
         return $model;
     }

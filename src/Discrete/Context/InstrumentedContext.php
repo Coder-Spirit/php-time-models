@@ -16,6 +16,11 @@ interface InstrumentedContext extends Context
 
     public function getInstant() : int;
 
+    /**
+     * @return null|\Litipk\TimeModels\Discrete\Model
+     */
+    public function getModel();
+
     /** @return int[] */
     public function getDims() : array;
 

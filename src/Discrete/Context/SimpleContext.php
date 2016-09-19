@@ -76,6 +76,14 @@ final class SimpleContext implements InstrumentedContext
         return $this->signal;
     }
 
+    /**
+     * @return null|\Litipk\TimeModels\Discrete\Model
+     */
+    public function getModel()
+    {
+        return $this->model;
+    }
+
     public function param(string $paramName) : float
     {
         return $this->model->getParam($paramName);
