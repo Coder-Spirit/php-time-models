@@ -6,11 +6,8 @@ namespace Litipk\TimeModels\Tests\Discrete;
 
 
 use Litipk\TimeModels\Discrete\Context\ShiftedContext;
-use Litipk\TimeModels\Discrete\Context\Context;
 use Litipk\TimeModels\Discrete\Context\SimpleContext;
-use Litipk\TimeModels\Discrete\Model;
 use Litipk\TimeModels\Discrete\Signals\ConstantSignal;
-use Litipk\TimeModels\Discrete\Signals\FunctionSignal;
 
 use PHPUnit\Framework\TestCase;
 

@@ -43,4 +43,22 @@ class ByNameSignalTest extends TestCase
         $this->assertEquals(84.0, $sig5->at(new SimpleContext(0, [], $model)));
         $this->assertEquals(168.0, $sig5->at(new SimpleContext(10, [], $model)));
     }
+
+    /**
+     * @expectedException \Litipk\TimeModels\Exceptions\CyclicDependenceException
+     */
+    public function test_autoReference()
+    {
+        $sig1 = new ByNameSignal('sig1');
+        (new Model())->withSignal('sig1', $sig1);
+    }
+
+    /**
+     * @expectedException \Litipk\TimeModels\Exceptions\InvalidReferenceException
+     */
+    public function test_invalidReference()
+    {
+        $sig1 = new ByNameSignal('sigX');
+        (new Model())->withSignal('sig1', $sig1);
+    }
 }

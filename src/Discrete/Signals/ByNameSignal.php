@@ -32,6 +32,11 @@ final class ByNameSignal extends Signal
         return $uncached;
     }
 
+    public function getReferredSignalName() : string
+    {
+        return $this->signalName;
+    }
+
     public function at(InstrumentedContext $ctx) : float
     {
         return ($this->signal ?? $this->getSignalFromModel($ctx))->at($ctx);

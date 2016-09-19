@@ -6,8 +6,11 @@ namespace Litipk\TimeModels\Discrete;
 
 
 use Litipk\TimeModels\Discrete\Context\SimpleContext;
+use Litipk\TimeModels\Discrete\Signals\ByNameSignal;
 use Litipk\TimeModels\Discrete\Signals\ConstantSignal;
 use Litipk\TimeModels\Discrete\Signals\Signal;
+use Litipk\TimeModels\Exceptions\CyclicDependenceException;
+use Litipk\TimeModels\Exceptions\InvalidReferenceException;
 
 
 final class Model
@@ -26,6 +29,8 @@ final class Model
 
         if ($signal instanceof ConstantSignal) {
             $model->params[$signalName] = $signal->getLevel();
+        } elseif ($signal instanceof ByNameSignal) {
+            $this->validateSignalsReferences($signalName, $signal, $model);
         }
 
         return $model;
@@ -75,5 +80,30 @@ final class Model
         return array_map(function ($t) use ($signal, $ctx) {
             return $signal->at($ctx->withInstant($t));
         }, range($since, $until));
+    }
+
+    /**
+     * @param string $signalName
+     * @param Signal $signal
+     * @param Model $model
+     * @throws CyclicDependenceException|InvalidReferenceException
+     */
+    private function validateSignalsReferences(string $signalName, Signal $signal, Model $model)
+    {
+        $tmpSignal = $signal;
+        $refsCount = 0;
+        $numSignals = count($model->signals);
+
+        while ($tmpSignal instanceof ByNameSignal) {
+            if ($tmpSignal->getReferredSignalName() === $signalName || $refsCount >= $numSignals) {
+                throw new CyclicDependenceException();
+            }
+            if (!isset($this->signals[$tmpSignal->getReferredSignalName()])) {
+                throw new InvalidReferenceException();
+            }
+
+            $tmpSignal = $this->signals[$tmpSignal->getReferredSignalName()];
+            ++$refsCount;
+        }
     }
 }
