@@ -7,6 +7,7 @@ namespace Litipk\TimeModels\Discrete;
 
 use Litipk\TimeModels\Discrete\Context\SimpleContext;
 use Litipk\TimeModels\Discrete\Signals\ByNameSignal;
+use Litipk\TimeModels\Discrete\Signals\ComposedSignal;
 use Litipk\TimeModels\Discrete\Signals\ConstantSignal;
 use Litipk\TimeModels\Discrete\Signals\Signal;
 use Litipk\TimeModels\Exceptions\CyclicDependenceException;
@@ -29,7 +30,7 @@ final class Model
 
         if ($signal instanceof ConstantSignal) {
             $model->params[$signalName] = $signal->getLevel();
-        } elseif ($signal instanceof ByNameSignal) {
+        } elseif ($signal instanceof ByNameSignal || $signal instanceof ComposedSignal) {
             $this->validateSignalsReferences($signalName, $signal, $model);
         }
 
@@ -90,20 +91,39 @@ final class Model
      */
     private function validateSignalsReferences(string $signalName, Signal $signal, Model $model)
     {
-        $tmpSignal = $signal;
-        $refsCount = 0;
         $numSignals = count($model->signals);
+        $signalsQueue = [[$signal, 0]];
 
-        while ($tmpSignal instanceof ByNameSignal) {
-            if ($tmpSignal->getReferredSignalName() === $signalName || $refsCount >= $numSignals) {
-                throw new CyclicDependenceException();
-            }
-            if (!isset($this->signals[$tmpSignal->getReferredSignalName()])) {
-                throw new InvalidReferenceException();
-            }
+        while (!empty($signalsQueue)) {
+            $tmpSignal = array_pop($signalsQueue);
+            /** @var int $refsCount */
+            $refsCount = $tmpSignal[1];
+            /** @var Signal $tmpSignal */
+            $tmpSignal = $tmpSignal[0];
 
-            $tmpSignal = $this->signals[$tmpSignal->getReferredSignalName()];
-            ++$refsCount;
+            if ($tmpSignal instanceof ComposedSignal) {
+                $signalsQueue = array_merge(
+                    $signalsQueue,
+                    array_map(
+                        function ($s) use ($refsCount) {
+                            return [$s, $refsCount];
+                        },
+                        $tmpSignal->getComponentSignals()
+                    )
+                );
+            } elseif ($tmpSignal instanceof ByNameSignal) {
+                if ($tmpSignal->getReferredSignalName() === $signalName || $refsCount >= $numSignals) {
+                    throw new CyclicDependenceException();
+                }
+                if (!isset($this->signals[$tmpSignal->getReferredSignalName()])) {
+                    throw new InvalidReferenceException();
+                }
+
+                $signalsQueue[] = [
+                    $this->signals[$tmpSignal->getReferredSignalName()],
+                    $refsCount + 1
+                ];
+            }
         }
     }
 }

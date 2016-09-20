@@ -13,6 +13,7 @@ use Litipk\TimeModels\Discrete\Signals\ChainedSignal;
 use Litipk\TimeModels\Discrete\Signals\ConstantSignal;
 use Litipk\TimeModels\Discrete\Signals\FunctionSignal;
 
+use Litipk\TimeModels\Discrete\Signals\SumSignal;
 use PHPUnit\Framework\TestCase;
 
 
@@ -77,5 +78,19 @@ class ByNameSignalTest extends TestCase
             ->withSignal('sig2', $sig2)
             ->withSignal('sig3', $sig3)
             ->withSignal('sig1', $sig1b);
+    }
+
+    /**
+     * @expectedException \Litipk\TimeModels\Exceptions\CyclicDependenceException
+     */
+    public function test_composedSignalShortCycle()
+    {
+        $sig1 = new ConstantSignal(42);
+        $sig2 = new ByNameSignal('sig3');
+        $sig3 = new SumSignal($sig1, $sig2);
+
+        (new Model())->withSignal('sig3', $sig3);
+
+        echo "jelou\n";
     }
 }

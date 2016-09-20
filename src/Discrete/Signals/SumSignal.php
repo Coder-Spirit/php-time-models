@@ -8,14 +8,10 @@ namespace Litipk\TimeModels\Discrete\Signals;
 use Litipk\TimeModels\Discrete\Context\InstrumentedContext;
 
 
-final class SumSignal extends Signal
+final class SumSignal extends ComposedSignal
 {
-    /** @var Signal[] */
-    private $signals;
-
     /** @var float[] */
     private $coefs;
-
 
     /**
      * @param (Signal|[float,Signal])[] $signals

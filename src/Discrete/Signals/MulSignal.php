@@ -8,11 +8,8 @@ namespace Litipk\TimeModels\Discrete\Signals;
 use Litipk\TimeModels\Discrete\Context\InstrumentedContext;
 
 
-final class MulSignal extends Signal
+final class MulSignal extends ComposedSignal
 {
-    /** @var Signal[] */
-    private $signals;
-
     public function __construct(Signal ... $signals)
     {
         $this->signals = array_map(function (Signal $s) { return $s->getUncached(); }, $signals);
