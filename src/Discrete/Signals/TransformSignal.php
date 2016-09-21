@@ -9,7 +9,7 @@ use Litipk\TimeModels\Discrete\Context\InstrumentedContext;
 use Litipk\TimeModels\Discrete\Context\ShiftedContext;
 
 
-final class TransformSignal extends Signal
+final class TransformSignal extends ComposedSignal
 {
     /** @var Signal */
     private $signal;
@@ -45,6 +45,14 @@ final class TransformSignal extends Signal
             $this->T,
             array_merge([$this->signal->_at($localCtx), $t2], $localCtx->getDims())
         );
+    }
+
+    /**
+     * @return Signal[]
+     */
+    public function getComponentSignals() : array
+    {
+        return [$this->signal];
     }
 }
 
