@@ -18,10 +18,10 @@ class SumSignalTest extends TestCase
 {
     function testSum_two_functions_without_coeficients ()
     {
-        $sig1 = new FunctionSignal(function (int $instant) {
+        $sig1 = new FunctionSignal(function (int $instant) : float {
             return $instant*2;
         });
-        $sig2 = new FunctionSignal(function (int $instant) {
+        $sig2 = new FunctionSignal(function (int $instant) : float {
             return $instant*$instant;
         });
 
@@ -35,10 +35,10 @@ class SumSignalTest extends TestCase
 
     function testSum_three_functions_with_coeficients ()
     {
-        $sig1 = new FunctionSignal(function (int $instant) {
+        $sig1 = new FunctionSignal(function (int $instant) : float {
             return $instant*2;
         });
-        $sig2 = new FunctionSignal(function (int $instant) {
+        $sig2 = new FunctionSignal(function (int $instant) : float {
             return $instant*$instant;
         });
         $sig3 = new ConstantSignal(7.0);
@@ -53,10 +53,10 @@ class SumSignalTest extends TestCase
 
     function testSum_two_functions_with_coeficients ()
     {
-        $sig1 = new FunctionSignal(function (int $instant) {
+        $sig1 = new FunctionSignal(function (int $instant) : float {
             return $instant*2;
         });
-        $sig2 = new FunctionSignal(function (int $instant) {
+        $sig2 = new FunctionSignal(function (int $instant) : float {
             return $instant*$instant;
         });
 
@@ -73,10 +73,10 @@ class SumSignalTest extends TestCase
      */
     function testSum_with_invalid_params()
     {
-        $sig1 = new FunctionSignal(function (int $instant) {
+        $sig1 = new FunctionSignal(function (int $instant) : float {
             return $instant*2;
         });
-        $sig2 = new FunctionSignal(function (int $instant) {
+        $sig2 = new FunctionSignal(function (int $instant) : float {
             return $instant*$instant;
         });
 

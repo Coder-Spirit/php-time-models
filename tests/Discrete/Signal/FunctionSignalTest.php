@@ -15,14 +15,9 @@ use PHPUnit\Framework\TestCase;
 
 class FunctionSignalTest extends TestCase
 {
-    public function testConstructor()
-    {
-        $signal = new FunctionSignal(function () {});
-    }
-
     public function testAt_SimpleTimeFunction()
     {
-        $signal = new FunctionSignal(function (int $instant) {
+        $signal = new FunctionSignal(function (int $instant) : float {
             return $instant*2;
         });
 
@@ -33,7 +28,7 @@ class FunctionSignalTest extends TestCase
 
     public function testAt_AutoReferredFunction()
     {
-        $signal = new FunctionSignal(function (int $instant, Context $ctx) {
+        $signal = new FunctionSignal(function (int $instant, Context $ctx) : float {
             return ($instant <= 0)
                 ? 1
                 : 2 * $ctx->past(1);
@@ -47,13 +42,13 @@ class FunctionSignalTest extends TestCase
 
     public function testAt_CrossReferredFunction()
     {
-        $sig1 = new FunctionSignal(function (int $instant, Context $ctx) {
+        $sig1 = new FunctionSignal(function (int $instant, Context $ctx) : float {
             return ($instant <= 0)
                 ? 2
                 : 3 * $ctx->globalPast('sig2', 1);
         });
 
-        $sig2 = new FunctionSignal(function (int $instant, Context $ctx) {
+        $sig2 = new FunctionSignal(function (int $instant, Context $ctx) : float {
             return ($instant <= 0)
                 ? 5
                 : 7 * $ctx->globalPast('sig1', 1);
@@ -69,5 +64,27 @@ class FunctionSignalTest extends TestCase
 
         $this->assertEquals(15, $sig1->at(new SimpleContext(1, [], $model)));
         $this->assertEquals(14, $sig2->at(new SimpleContext(1, [], $model)));
+    }
+
+    /**
+     * @expectedException \TypeError
+     * @expectedExceptionMessage The return type of the passed callable is missing
+     */
+    public function testConstructor_withNoReturnTypeInCallable()
+    {
+        new FunctionSignal(function (int $t) {
+            return 0.0;
+        });
+    }
+
+    /**
+     * @expectedException \TypeError
+     * @expectedExceptionMessage The passed callable must return float values
+     */
+    public function testConstructor_withInvalidReturnTypeInCallable()
+    {
+        new FunctionSignal(function (int $t) : string {
+            return 'this wont run';
+        });
     }
 }

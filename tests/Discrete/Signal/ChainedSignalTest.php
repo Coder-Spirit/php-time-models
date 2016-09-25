@@ -38,10 +38,10 @@ class ChainedSignalTest extends TestCase
 
     public function testShiftedChaining()
     {
-        $sig1 = new FunctionSignal(function (int $instant) {
+        $sig1 = new FunctionSignal(function (int $instant) : float {
             return $instant*2;
         });
-        $sig2 = new FunctionSignal(function (int $instant) {
+        $sig2 = new FunctionSignal(function (int $instant) : float {
             return $instant*$instant;
         });
 
@@ -62,10 +62,10 @@ class ChainedSignalTest extends TestCase
 
     public function testShiftedChaining_withMemory()
     {
-        $sig1 = new FunctionSignal(function (int $instant) {
+        $sig1 = new FunctionSignal(function (int $instant) : float {
             return $instant*2;
         });
-        $sig2 = new FunctionSignal(function (int $instant, Context $ctx) {
+        $sig2 = new FunctionSignal(function (int $instant, Context $ctx) : float {
             return $ctx->past(1)+1;
         });
 
@@ -86,10 +86,10 @@ class ChainedSignalTest extends TestCase
 
     public function testShiftedChaining_withMemoryAndInstant()
     {
-        $sig1 = new FunctionSignal(function (int $instant) {
+        $sig1 = new FunctionSignal(function (int $instant) : float {
             return $instant*2;
         });
-        $sig2 = new FunctionSignal(function (int $instant, Context $ctx) {
+        $sig2 = new FunctionSignal(function (int $instant, Context $ctx) : float {
             return $ctx->past(1)+$instant;
         });
 
@@ -127,10 +127,10 @@ class ChainedSignalTest extends TestCase
 
     public function testShiftedTripleChaining()
     {
-        $sig1 = new FunctionSignal(function (int $instant) {
+        $sig1 = new FunctionSignal(function (int $instant) : float {
             return $instant*2;
         });
-        $sig2 = new FunctionSignal(function (int $instant, Context $ctx) {
+        $sig2 = new FunctionSignal(function (int $instant, Context $ctx) : float {
             return $ctx->past(1)+$instant;
         });
         $sig3 = new ConstantSignal(150);

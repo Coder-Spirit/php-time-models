@@ -15,20 +15,15 @@ use PHPUnit\Framework\TestCase;
 
 class ModelTest extends TestCase
 {
-    public function testClassExistence()
-    {
-        $model = new Model();
-    }
-
     public function testAt_CrossReferredFunction()
     {
-        $sig1 = new FunctionSignal(function (int $instant, Context $ctx) {
+        $sig1 = new FunctionSignal(function (int $instant, Context $ctx) : float {
             return ($instant <= 0)
                 ? 2
                 : 3 * $ctx->globalPast('sig2', 1);
         });
 
-        $sig2 = new FunctionSignal(function (int $instant, Context $ctx) {
+        $sig2 = new FunctionSignal(function (int $instant, Context $ctx) : float {
             return ($instant <= 0)
                 ? 5
                 : 7 * $ctx->globalPast('sig1', 1);
@@ -87,7 +82,7 @@ class ModelTest extends TestCase
 
     public function testWithParam()
     {
-        $sig = new FunctionSignal(function (int $instant, int $shift, Context $ctx) {
+        $sig = new FunctionSignal(function (int $instant, int $shift, Context $ctx) : float {
             return $instant * $ctx->param('p1') + $shift * $ctx->param('p2');
         });
         $model = (new Model())
@@ -103,7 +98,7 @@ class ModelTest extends TestCase
 
     public function testEvalTimeSlice()
     {
-        $signal = new FunctionSignal(function (int $instant, Context $ctx) {
+        $signal = new FunctionSignal(function (int $instant, Context $ctx) : float {
             return ($instant <= 0)
                 ? 1
                 : 2 * $ctx->past(1);
@@ -118,7 +113,7 @@ class ModelTest extends TestCase
 
     public function testUnsharedModel()
     {
-        $sig = new FunctionSignal(function (int $instant, int $shift, Context $ctx) {
+        $sig = new FunctionSignal(function (int $instant, int $shift, Context $ctx) : float {
             return $instant * $ctx->param('p1') + $shift * $ctx->param('p2');
         });
         $m1 = (new Model())
@@ -144,7 +139,7 @@ class ModelTest extends TestCase
 
     public function testWithParam_afterEvaluateSignal()
     {
-        $sig = new FunctionSignal(function (int $instant, int $shift, Context $ctx) {
+        $sig = new FunctionSignal(function (int $instant, int $shift, Context $ctx) : float {
             return $instant * $ctx->param('p1') + $shift * $ctx->param('p2');
         });
         $m1 = (new Model())

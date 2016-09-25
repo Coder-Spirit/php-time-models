@@ -16,10 +16,10 @@ class MaxSignalTest extends TestCase
 {
     function testMax ()
     {
-        $sig1 = new FunctionSignal(function (int $instant) {
+        $sig1 = new FunctionSignal(function (int $instant) : float {
             return $instant*3;
         });
-        $sig2 = new FunctionSignal(function (int $instant) {
+        $sig2 = new FunctionSignal(function (int $instant) : float {
             return $instant*$instant;
         });
 

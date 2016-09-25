@@ -16,7 +16,7 @@ class DifferentialSignalTest extends TestCase
 {
     function testMin ()
     {
-        $sig1 = new FunctionSignal(function (int $instant) {
+        $sig1 = new FunctionSignal(function (int $instant) : float {
             return $instant*$instant;
         });
 

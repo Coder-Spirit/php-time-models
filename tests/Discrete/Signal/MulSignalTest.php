@@ -17,10 +17,10 @@ class MulSignalTest extends TestCase
 {
     function testMul ()
     {
-        $sig1 = new FunctionSignal(function (int $instant) {
+        $sig1 = new FunctionSignal(function (int $instant) : float {
             return $instant*2;
         });
-        $sig2 = new FunctionSignal(function (int $instant) {
+        $sig2 = new FunctionSignal(function (int $instant) : float {
             return $instant*$instant;
         });
 
@@ -37,10 +37,10 @@ class MulSignalTest extends TestCase
      */
     function testMul_with_invalid_params()
     {
-        $sig1 = new FunctionSignal(function (int $instant) {
+        $sig1 = new FunctionSignal(function (int $instant) : float {
             return $instant*2;
         });
-        $sig2 = new FunctionSignal(function (int $instant) {
+        $sig2 = new FunctionSignal(function (int $instant) : float {
             return $instant*$instant;
         });
 

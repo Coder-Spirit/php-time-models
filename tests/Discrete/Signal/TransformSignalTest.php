@@ -17,7 +17,7 @@ class TransformSignalTest extends TestCase
 {
     public function testSignalOutputTransformation ()
     {
-        $sig1 = new FunctionSignal(function (int $instant) {
+        $sig1 = new FunctionSignal(function (int $instant) : float {
             return $instant*2;
         });
         $signal = new TransformSignal($sig1, function (float $o) : float {
@@ -32,7 +32,7 @@ class TransformSignalTest extends TestCase
 
     public function testTimeTransformation ()
     {
-        $sig1 = new FunctionSignal(function (int $instant) {
+        $sig1 = new FunctionSignal(function (int $instant) : float {
             return $instant*2;
         });
         $signal = new TransformSignal($sig1, null, function (int $t) : int {
