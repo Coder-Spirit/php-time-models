@@ -14,7 +14,7 @@ final class SimpleContext implements InstrumentedContext
     /** @var int */
     private $t;
 
-    /** @var array */
+    /** @var int[] */
     private $dims;
 
     /** @var null|\Litipk\TimeModels\Discrete\Signals\Signal */

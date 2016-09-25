@@ -8,10 +8,10 @@ namespace Litipk\TimeModels\Discrete\Signals;
 use Litipk\TimeModels\Discrete\Context\InstrumentedContext;
 
 
-final class FunctionSignal extends Signal
+class FunctionSignal extends Signal
 {
     /** @var callable */
-    private $func;
+    protected $func;
 
 
     /**
@@ -46,7 +46,7 @@ final class FunctionSignal extends Signal
         }
     }
 
-    private function validateCallableParameters(\ReflectionFunction $reflectedFunc)
+    protected function validateCallableParameters(\ReflectionFunction $reflectedFunc)
     {
         $reflectedParams = $reflectedFunc->getParameters();
         $nParams = count($reflectedParams);
@@ -67,7 +67,7 @@ final class FunctionSignal extends Signal
             null === $lastParamReflectedType                                                            ||
             $lastParamReflectedType->isBuiltin() && 'int' !== $lastParamReflectedType->__toString()     ||
             !$lastParamReflectedType->isBuiltin()                                                       &&
-            $reflectedParam->getClass()->getName() !== 'Litipk\\TimeModels\\Discrete\\Context\\Context'
+            $reflectedParam->getClass()->getNamespaceName() !== 'Litipk\\TimeModels\\Discrete\\Context'
         ) {
             throw new \TypeError('The callable\'s last parameter has to be declared as `int` or `Context`');
         }
