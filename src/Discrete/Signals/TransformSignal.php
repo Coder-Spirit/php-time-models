@@ -29,7 +29,7 @@ final class TransformSignal extends ComposedSignal
      */
     public function __construct(Signal $signal, callable $T = null, callable $timeT = null)
     {
-        $this->signal = $signal;
+        $this->signal = $signal->getUncached();
         $this->T      = (null !== $T)     ? $T     : function (float $x) : float { return $x; };
         $this->timeT  = (null !== $timeT) ? $timeT : function (int $x)   : int   { return $x; };
     }
@@ -43,7 +43,7 @@ final class TransformSignal extends ComposedSignal
 
         return (float)call_user_func_array(
             $this->T,
-            array_merge([$this->signal->_at($localCtx), $t2], $localCtx->getDims())
+            array_merge([$this->signal->at($localCtx), $t2], $localCtx->getDims())
         );
     }
 

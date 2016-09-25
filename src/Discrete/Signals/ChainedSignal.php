@@ -47,7 +47,7 @@ final class ChainedSignal extends ComposedSignal
     protected function _at(InstrumentedContext $ctx) : float
     {
         return ($ctx->getInstant() < $this->cutPoint)
-            ? $this->left->_at($ctx)
-            : $this->right->_at($ctx);
+            ? $this->left->at($ctx)
+            : $this->right->at($ctx);
     }
 }

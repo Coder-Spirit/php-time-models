@@ -152,4 +152,16 @@ class ChainedSignalTest extends TestCase
         $this->assertEquals(150, $sig5->at(new SimpleContext(15)));
         $this->assertEquals(150, $sig5->at(new SimpleContext(16)));
     }
+
+    public function testGetComponentSignals()
+    {
+        $sig1 = new ConstantSignal(42);
+        $sig2 = new ConstantSignal(100);
+
+        $signal = new ChainedSignal($sig1, $sig2, 5);
+
+        $this->assertEquals(2, count($signal->getComponentSignals()));
+        $this->assertContains($sig1, $signal->getComponentSignals());
+        $this->assertContains($sig2, $signal->getComponentSignals());
+    }
 }
