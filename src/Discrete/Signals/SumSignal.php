@@ -36,7 +36,7 @@ final class SumSignal extends ComposedSignal
     protected function _at(InstrumentedContext $ctx) : float
     {
         return (float)array_sum(array_map(function (float $coef, Signal $signal) use ($ctx) {
-            return $coef*$signal->_at($ctx);
+            return $coef*$signal->at($ctx);
         }, $this->coefs, $this->signals));
     }
 }

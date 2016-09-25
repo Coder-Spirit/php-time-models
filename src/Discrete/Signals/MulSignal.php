@@ -18,7 +18,7 @@ final class MulSignal extends ComposedSignal
     protected function _at(InstrumentedContext $ctx) : float
     {
         return (float)array_reduce($this->signals, function ($carry, Signal $signal) use ($ctx) {
-            return $carry * $signal->_at($ctx);
+            return $carry * $signal->at($ctx);
         }, 1.0);
     }
 }

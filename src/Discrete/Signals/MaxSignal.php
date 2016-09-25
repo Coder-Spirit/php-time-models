@@ -18,7 +18,7 @@ final class MaxSignal extends ComposedSignal
     protected function _at(InstrumentedContext $ctx) : float
     {
         return (float)max(array_map(function (Signal $s) use ($ctx) {
-            return $s->_at($ctx);
+            return $s->at($ctx);
         }, $this->signals));
     }
 }
