@@ -73,7 +73,7 @@ class FunctionSignalTest extends TestCase
     public function testConstructor_withNoReturnTypeInCallable()
     {
         new FunctionSignal(function (int $t) {
-            return 0.0;
+            return $t;
         });
     }
 
@@ -85,6 +85,39 @@ class FunctionSignalTest extends TestCase
     {
         new FunctionSignal(function (int $t) : string {
             return 'this wont run';
+        });
+    }
+
+    /**
+     * @expectedException \TypeError
+     * @expectedExceptionMessage The callable's last parameter has to be declared as `int` or `Context`
+     */
+    public function testConstructor_withoutCallableLastParameterType()
+    {
+        new FunctionSignal(function ($t) : float {
+            return (float)$t;
+        });
+    }
+
+    /**
+     * @expectedException \TypeError
+     * @expectedExceptionMessage All the callable parameters, except the last one, must be declared as integers
+     */
+    public function testConstructor_withoutCallableFirstParameterTypes()
+    {
+        new FunctionSignal(function ($t, Context $ctx) : float {
+            return (float)$t * $ctx->past(1);
+        });
+    }
+
+    /**
+     * @expectedException \TypeError
+     * @expectedExceptionMessage The passed callable must have at least the time as parameter
+     */
+    public function testConstructor_withCallableWithoutParameters()
+    {
+        new FunctionSignal(function () : float {
+            return 0.0;
         });
     }
 }

@@ -23,12 +23,8 @@ final class FunctionSignal extends Signal
     {
         $reflectedFunc = new \ReflectionFunction($func);
 
-        $reflectedReturn = $reflectedFunc->getReturnType();
-        if (null === $reflectedReturn) {
-            throw new \TypeError('The return type of the passed callable is missing');
-        } elseif (!in_array($reflectedReturn->__toString(), ['float', 'int'])) {
-            throw new \TypeError('The passed callable must return float values');
-        }
+        $this->validateCallableReturnType($reflectedFunc);
+        $this->validateCallableParameters($reflectedFunc);
 
         $this->func = $func;
     }
@@ -38,5 +34,42 @@ final class FunctionSignal extends Signal
         return (float)call_user_func_array(
             $this->func, array_merge([$ctx->getInstant()], $ctx->getDims(), [$ctx])
         );
+    }
+
+    private function validateCallableReturnType(\ReflectionFunction $reflectedFunc)
+    {
+        $reflectedReturn = $reflectedFunc->getReturnType();
+        if (null === $reflectedReturn) {
+            throw new \TypeError('The return type of the passed callable is missing');
+        } elseif (!in_array($reflectedReturn->__toString(), ['float', 'int'])) {
+            throw new \TypeError('The passed callable must return float values');
+        }
+    }
+
+    private function validateCallableParameters(\ReflectionFunction $reflectedFunc)
+    {
+        $reflectedParams = $reflectedFunc->getParameters();
+        $nParams = count($reflectedParams);
+        if (0 === $nParams) {
+            throw new \TypeError('The passed callable must have at least the time as parameter');
+        }
+
+        for ($i = 0; $i < $nParams - 1; $i++) {
+            $reflectedParam = $reflectedParams[$i];
+            if (null === $reflectedParam->getType() || 'int' !== $reflectedParam->getType()->__toString()) {
+                throw new \TypeError('All the callable parameters, except the last one, must be declared as integers');
+            }
+        }
+
+        $reflectedParam = $reflectedParams[$nParams-1];
+        $lastParamReflectedType = $reflectedParam->getType();
+        if (
+            null === $lastParamReflectedType                                                            ||
+            $lastParamReflectedType->isBuiltin() && 'int' !== $lastParamReflectedType->__toString()     ||
+            !$lastParamReflectedType->isBuiltin()                                                       &&
+            $reflectedParam->getClass()->getName() !== 'Litipk\\TimeModels\\Discrete\\Context\\Context'
+        ) {
+            throw new \TypeError('The callable\'s last parameter has to be declared as `int` or `Context`');
+        }
     }
 }
