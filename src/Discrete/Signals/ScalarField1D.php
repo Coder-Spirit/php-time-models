@@ -11,27 +11,48 @@ use Litipk\TimeModels\Discrete\Context\SimpleContext;
 
 class ScalarField1D extends FunctionSignal
 {
-    public function integrateUntilFirstZero(int $from=0) : FunctionSignal
+    public function integrateUntilFirstZero(int $from=0) : ComposedSignal
     {
-        /** @var FunctionSignal $that */
-        $that = $this;
+        return new class ($this, $from) extends ComposedSignal
+        {
+            /** @var ScalarField1D */
+            private $field;
 
-        return new FunctionSignal(function (int $t, InstrumentedContext $ctx) use ($from, $that) : float {
-            $acc   = 0.0;
-            $model = $ctx->getModel();
+            /** @var int */
+            private $from;
 
-            $localCtx = new SimpleContext($t, [$from], $model, $that);
-            $delta = ($that->func)($t, $from, $localCtx);
-
-            for ($i = $from + 1; $delta !== 0.0; $i++) {
-                $acc += $delta;
-
-                $localCtx = new SimpleContext($t, [$i], $model, $that);
-                $delta = ($that->func)($t, $i, $localCtx);
+            public function __construct(ScalarField1D $field, int $from=0)
+            {
+                $this->field = $field;
+                $this->from  = $from;
             }
 
-            return $acc;
-        });
+            public function getComponentSignals() : array
+            {
+                return [$this->field];
+            }
+
+            protected function _at(InstrumentedContext $ctx) : float
+            {
+                $acc   = 0.0;
+                $t     = $ctx->getInstant();
+                $model = $ctx->getModel();
+
+                $delta = $this->field->at(
+                    new SimpleContext($t, [$this->from], $model, $this->field)
+                );
+
+                for ($i = $this->from + 1; $delta !== 0.0; $i++) {
+                    $acc += $delta;
+
+                    $delta = $this->field->at(
+                        new SimpleContext($t, [$i], $model, $this->field)
+                    );
+                }
+
+                return $acc;
+            }
+        };
     }
 
     protected function validateCallableParameters(\ReflectionFunction $reflectedFunc)
