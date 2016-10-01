@@ -55,6 +55,14 @@ final class SimpleContext implements InstrumentedContext
         return $ctx;
     }
 
+    public function withDims(int ...$dims) : InstrumentedContext
+    {
+        $ctx = clone $this;
+        $ctx->dims = $dims;
+
+        return $ctx;
+    }
+
     public function getInstant() : int
     {
         return $this->t;

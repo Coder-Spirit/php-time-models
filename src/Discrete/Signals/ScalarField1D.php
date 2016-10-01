@@ -55,6 +55,52 @@ class ScalarField1D extends FunctionSignal
         };
     }
 
+    public function withPatchedRegion(Signal $patch, callable $regionFilter, bool $keepField = false) : ScalarField1D
+    {
+        return new class ($this, $patch, $regionFilter, $keepField) extends ComposedSignal
+        {
+            /** @var ScalarField1D */
+            private $base;
+
+            /** @var Signal */
+            private $patch;
+
+            /** @var callable */
+            private $regionFilter;
+
+            /** @var bool */
+            private $keepField;
+
+            public function __construct(
+                ScalarField1D $base, Signal $patch, callable $regionFilter, bool $keepField = false
+            )
+            {
+                $this->base         = $base;
+                $this->patch        = $patch;
+                $this->regionFilter = $regionFilter;
+                $this->keepField    = $keepField;
+            }
+
+            public function getComponentSignals() : array
+            {
+                return [$this->base, $this->patch];
+            }
+
+            protected function _at(InstrumentedContext $ctx) : float
+            {
+                if (($this->regionFilter)($ctx->getDims())) {
+                    return $this->patch->at(
+                        ($this->keepField)
+                            ? $ctx
+                            : $ctx->withDims([])
+                    );
+                } else {
+                    return $this->base->at($ctx);
+                }
+            }
+        };
+    }
+
     protected function validateCallableParameters(\ReflectionFunction $reflectedFunc)
     {
         $reflectedParams = $reflectedFunc->getParameters();

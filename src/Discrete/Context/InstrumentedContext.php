@@ -14,6 +14,8 @@ interface InstrumentedContext extends Context
 
     public function withInstant(int $t) : InstrumentedContext;
 
+    public function withDims(int ... $dims) : InstrumentedContext;
+
     public function getInstant() : int;
 
     /**

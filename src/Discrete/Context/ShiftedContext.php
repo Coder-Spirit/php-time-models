@@ -38,6 +38,14 @@ final class ShiftedContext implements InstrumentedContext
         return $ctx;
     }
 
+    public function withDims(int ...$dims) : InstrumentedContext
+    {
+        $ctx = clone $this;
+        $ctx->ctx = $ctx->ctx->withDims(...$dims);
+
+        return $ctx;
+    }
+
     public function getInstant() : int
     {
         return $this->ctx->getInstant() + $this->shift;
