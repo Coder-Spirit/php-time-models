@@ -55,7 +55,7 @@ class ScalarField1D extends FunctionSignal
         };
     }
 
-    public function withPatchedRegion(Signal $patch, callable $regionFilter, bool $keepField = false) : ScalarField1D
+    public function withPatchedRegion(Signal $patch, callable $regionFilter, bool $keepField = false) : ComposedSignal
     {
         return new class ($this, $patch, $regionFilter, $keepField) extends ComposedSignal
         {
