@@ -9,6 +9,7 @@ use Litipk\TimeModels\Discrete\Context\SimpleContext;
 use Litipk\TimeModels\Discrete\Signals\ByNameSignal;
 use Litipk\TimeModels\Discrete\Signals\ComposedSignal;
 use Litipk\TimeModels\Discrete\Signals\ConstantSignal;
+use Litipk\TimeModels\Discrete\Signals\ParametricSignal;
 use Litipk\TimeModels\Discrete\Signals\Signal;
 use Litipk\TimeModels\Exceptions\CyclicDependenceException;
 use Litipk\TimeModels\Exceptions\InvalidReferenceException;
@@ -25,6 +26,10 @@ final class Model
 
     public function withSignal(string $signalName, Signal $signal) : Model
     {
+        if ($signal instanceof ParametricSignal) {
+            $signal = $signal->withParametersFromModel($this);
+        }
+
         $model = clone $this;
         $model->signals[$signalName] = $signal->getUncached();
 

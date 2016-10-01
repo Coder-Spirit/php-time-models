@@ -6,9 +6,10 @@ namespace Litipk\TimeModels\Discrete\Signals;
 
 
 use Litipk\TimeModels\Discrete\Context\InstrumentedContext;
+use Litipk\TimeModels\Discrete\Model;
 
 
-final class ChainedSignal extends ComposedSignal
+final class ChainedSignal extends ComposedSignal implements ParametricSignal
 {
     /** @var Signal */
     private $left;
@@ -20,12 +21,30 @@ final class ChainedSignal extends ComposedSignal
     private $cutPoint;
 
 
-    public function __construct(Signal $left, Signal $right, int $cutPoint)
+    /**
+     * ChainedSignal constructor.
+     * @param Signal $left
+     * @param Signal $right
+     * @param int|string $cutPoint
+     */
+    public function __construct(Signal $left, Signal $right, $cutPoint)
     {
         $this->left  = $left->getUncached();
         $this->right = $right->getUncached();
 
-        $this->cutPoint   = $cutPoint;
+        $this->cutPoint = $cutPoint;
+    }
+
+    public function withParametersFromModel(Model $model) : Signal
+    {
+        if (is_string($this->cutPoint)) {
+            $signal = clone $this;
+            $signal->cutPoint = (int)$model->getParam($this->cutPoint);
+        } else {
+            $signal = $this;
+        }
+
+        return $signal;
     }
 
     /**

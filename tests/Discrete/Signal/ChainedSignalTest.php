@@ -7,6 +7,7 @@ namespace Litipk\TimeModels\Tests\Discrete\Signal;
 
 use Litipk\TimeModels\Discrete\Context\Context;
 use Litipk\TimeModels\Discrete\Context\SimpleContext;
+use Litipk\TimeModels\Discrete\Model;
 use Litipk\TimeModels\Discrete\Signals\ChainedSignal;
 use Litipk\TimeModels\Discrete\Signals\ConstantSignal;
 use Litipk\TimeModels\Discrete\Signals\FunctionSignal;
@@ -34,6 +35,29 @@ class ChainedSignalTest extends TestCase
         $this->assertEquals(100, $signal->at(new SimpleContext(7)));
         $this->assertEquals(100, $signal->at(new SimpleContext(8)));
         $this->assertEquals(100, $signal->at(new SimpleContext(9)));
+    }
+
+    public function testSimpleChaining_withCutPointFromModel()
+    {
+        $sig1 = new ConstantSignal(42);
+        $sig2 = new ConstantSignal(100);
+
+        $signal = new ChainedSignal($sig1, $sig2, 'modelCutPoint');
+        $model  = (new Model())
+            ->withParam('modelCutPoint', 5)
+            ->withSignal('chainedSignal', $signal);
+
+        $this->assertEquals(42, $model->eval('chainedSignal', 0));
+        $this->assertEquals(42, $model->eval('chainedSignal', 1));
+        $this->assertEquals(42, $model->eval('chainedSignal', 2));
+        $this->assertEquals(42, $model->eval('chainedSignal', 3));
+        $this->assertEquals(42, $model->eval('chainedSignal', 4));
+
+        $this->assertEquals(100, $model->eval('chainedSignal', 5));
+        $this->assertEquals(100, $model->eval('chainedSignal', 6));
+        $this->assertEquals(100, $model->eval('chainedSignal', 7));
+        $this->assertEquals(100, $model->eval('chainedSignal', 8));
+        $this->assertEquals(100, $model->eval('chainedSignal', 9));
     }
 
     public function testSimpleTripleChaining()
