@@ -18,7 +18,7 @@ final class ShiftedContext implements InstrumentedContext
 
     public function __construct(InstrumentedContext $ctx, int $shift)
     {
-        $this->ctx   = $ctx;
+        $this->ctx   = clone($ctx);
         $this->shift = $shift;
     }
 

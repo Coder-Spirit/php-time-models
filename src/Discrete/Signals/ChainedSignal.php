@@ -20,18 +20,10 @@ final class ChainedSignal extends ComposedSignal
     private $cutPoint;
 
 
-    public function __construct(Signal $left, Signal $right, int $cutPoint, int $leftShift = 0, int $rightShift = 0)
+    public function __construct(Signal $left, Signal $right, int $cutPoint)
     {
-        $this->left  = (0 === $leftShift)
-            ? $left
-            : new TransformSignal($left, null, function (int $t) use ($leftShift) : int {
-                return (int)($t + $leftShift);
-            });
-        $this->right = (0 === $rightShift)
-            ? $right
-            : new TransformSignal($right, null, function (int $t) use ($rightShift) : int {
-                return (int)($t + $rightShift);
-            });
+        $this->left  = $left->getUncached();
+        $this->right = $right->getUncached();
 
         $this->cutPoint   = $cutPoint;
     }

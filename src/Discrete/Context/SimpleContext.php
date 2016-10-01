@@ -110,9 +110,7 @@ final class SimpleContext implements InstrumentedContext
 
         $ctx = clone $this;
         $ctx->t -= $stepsToPast;
-        if (!empty($dims)) {
-            $ctx->dims = $dims;
-        }
+        $ctx->dims = $dims;
 
         return $ctx;
     }
