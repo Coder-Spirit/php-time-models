@@ -33,6 +33,7 @@ abstract class ComposedSignal extends Signal implements ParametricSignal
         if ($usedModelParameters) {
             $parametrizedSignal = clone $this;
             $parametrizedSignal->setComponentSignals(...$signals);
+            return $parametrizedSignal;
         } else {
             return $this;
         }
