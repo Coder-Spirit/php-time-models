@@ -19,6 +19,14 @@ final class DifferentialSignal extends ComposedSignal
         $this->signal = $signal->getUncached();
     }
 
+    /**
+     * @return Signal[]
+     */
+    public function getComponentSignals() : array
+    {
+        return [$this->signal];
+    }
+
     protected function _at(InstrumentedContext $ctx) : float
     {
         return (float)(
@@ -29,11 +37,8 @@ final class DifferentialSignal extends ComposedSignal
         );
     }
 
-    /**
-     * @return Signal[]
-     */
-    public function getComponentSignals() : array
+    protected function setComponentSignals(Signal ...$signals)
     {
-        return [$this->signal];
+        $this->signal = $signals[0];
     }
 }

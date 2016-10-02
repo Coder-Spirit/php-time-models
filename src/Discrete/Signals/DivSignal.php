@@ -23,11 +23,25 @@ final class DivSignal extends ComposedSignal
         $this->divisor  = $divisor->getUncached();
     }
 
+    /**
+     * @return Signal[]
+     */
+    public function getComponentSignals() : array
+    {
+        return [$this->dividend, $this->divisor];
+    }
+
     protected function _at(InstrumentedContext $ctx) : float
     {
         return (
             $this->dividend->at($ctx->withSignal($this->dividend)) /
             $this->divisor->at($ctx->withSignal($this->divisor))
         );
+    }
+
+    protected function setComponentSignals(Signal ...$signals)
+    {
+        $this->dividend = $signals[0];
+        $this->divisor  = $signals[1];
     }
 }

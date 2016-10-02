@@ -55,6 +55,11 @@ final class ChainedSignal extends ComposedSignal implements ParametricSignal
         return [$this->left, $this->right];
     }
 
+    protected function setComponentSignals(Signal ...$signals)
+    {
+        throw new \LogicException('Not implemented because it should not be called.');
+    }
+
     protected function _at(InstrumentedContext $ctx) : float
     {
         return ($ctx->getInstant() < $this->cutPoint)
