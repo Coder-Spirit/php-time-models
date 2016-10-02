@@ -92,7 +92,7 @@ class ScalarField1D extends FunctionSignal
                     return $this->patch->at(
                         ($this->keepField)
                             ? $ctx
-                            : $ctx->withDims([])
+                            : $ctx->withDims()
                     );
                 } else {
                     return $this->base->at($ctx);
