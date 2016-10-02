@@ -86,6 +86,12 @@ class ScalarField1D extends FunctionSignal
                 return [$this->base, $this->patch];
             }
 
+            protected function setComponentSignals(Signal ...$signals)
+            {
+                $this->base  = $signals[0];
+                $this->patch = $signals[1];
+            }
+
             protected function _at(InstrumentedContext $ctx) : float
             {
                 if (($this->regionFilter)($ctx->getDims())) {
