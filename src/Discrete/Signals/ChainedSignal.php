@@ -38,10 +38,10 @@ final class ChainedSignal extends ComposedSignal implements ParametricSignal
     public function withParametersFromModel(Model $model) : Signal
     {
         if (is_string($this->cutPoint)) {
-            $signal = clone $this;
+            $signal = clone parent::withParametersFromModel($model);
             $signal->cutPoint = (int)$model->getParam($this->cutPoint);
         } else {
-            $signal = $this;
+            $signal = parent::withParametersFromModel($model);
         }
 
         return $signal;
@@ -57,7 +57,8 @@ final class ChainedSignal extends ComposedSignal implements ParametricSignal
 
     protected function setComponentSignals(Signal ...$signals)
     {
-        throw new \LogicException('Not implemented because it should not be called.');
+        $this->left  = $signals[0];
+        $this->right = $signals[1];
     }
 
     protected function _at(InstrumentedContext $ctx) : float
