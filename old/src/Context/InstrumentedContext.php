@@ -1,0 +1,33 @@
+<?php
+declare(strict_types=1);
+
+
+namespace Litipk\TimeModels\Context;
+
+
+use Litipk\TimeModels\Signals\Signal;
+
+
+interface InstrumentedContext extends Context
+{
+    public function withSignal(Signal $signal) : InstrumentedContext;
+
+    public function withInstant(int $t) : InstrumentedContext;
+
+    public function withDims(int ... $dims) : InstrumentedContext;
+
+    public function getInstant() : int;
+
+    /**
+     * @return null|\Litipk\TimeModels\Discrete\Model
+     */
+    public function getModel();
+
+    /** @return int[] */
+    public function getDims() : array;
+
+    /**
+     * @return null|\Litipk\TimeModels\Discrete\Signals\Signal;
+     */
+    public function getSignal();
+}
